@@ -13,9 +13,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Linq;
+using ptyxiaki.Data;
 
 namespace ptyxiaki
 {
@@ -38,6 +40,10 @@ namespace ptyxiaki
         options.MinimumSameSitePolicy = SameSiteMode.None;
       });
 
+      services.AddEntityFrameworkNpgsql()
+        .AddDbContext<DepartmentContext>(options =>
+          options.UseNpgsql(Configuration.GetConnectionString("DepartmentContext")))
+        .BuildServiceProvider();
 
       services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
