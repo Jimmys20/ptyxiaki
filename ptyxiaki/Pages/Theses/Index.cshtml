@@ -1,0 +1,48 @@
+﻿@page
+@model ptyxiaki.Pages.Theses.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Thesis[0].title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Thesis[0].description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Thesis[0].professor)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Thesis) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.professor.professorId)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.thesisId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.thesisId">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.thesisId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -14,5 +14,7 @@ namespace ptyxiaki.Data
 
     public DbSet<Thesis> theses { get; set; }
     public DbSet<Professor> professors { get; set; }
+    public DbSet<Student> students { get; set; }
+    public DbSet<Announcement> announcements { get; set; }
   }
 }

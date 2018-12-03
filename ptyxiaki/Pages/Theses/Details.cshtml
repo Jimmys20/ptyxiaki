@@ -1,0 +1,37 @@
+﻿@page
+@model ptyxiaki.Pages.Theses.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Thesis</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Thesis.title)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Thesis.title)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Thesis.description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Thesis.description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Thesis.professor)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Thesis.professor.professorId)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Thesis.thesisId">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>
