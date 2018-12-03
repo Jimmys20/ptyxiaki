@@ -16,6 +16,6 @@ namespace ptyxiaki.Models
     public string place { get; set; }
     public string time { get; set; }
 
-    public List<Thesis> theses { get; set; }
+    public ICollection<Thesis> theses { get; set; }
   }
 }

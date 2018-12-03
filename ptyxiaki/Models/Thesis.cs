@@ -9,8 +9,9 @@ namespace ptyxiaki.Models
   {
     public int thesisId { get; set; }
     public string title { get; set; }
+    public string description { get; set; }
+
     public int professorId { get; set; }
     public Professor professor { get; set; }
-    public string description { get; set; }
   }
 }
