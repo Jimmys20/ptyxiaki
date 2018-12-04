@@ -1,9 +1,11 @@
 {
-  "name": "ptyxiaki",
   "version": "1.0.0",
+  "name": "asp.net",
   "private": true,
-  "dependencies": {
+  "devDependencies": {
     "bootstrap": "^4.1.3",
-    "font-awesome": "^4.7.0"
+    "font-awesome": "^4.7.0",
+    "gulp": "^3.9.1",
+    "jquery": "^3.3.1"
   }
 }
