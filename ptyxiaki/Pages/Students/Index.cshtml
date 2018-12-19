@@ -1,0 +1,79 @@
+﻿@page
+@model ptyxiaki.Pages.Students.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Student[0].firstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Student[0].lastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Student[0].registrationNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Student[0].email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Student[0].semester)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Student[0].average)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Student[0].credits)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Student[0].progressFactor)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Student)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.firstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.lastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.registrationNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.semester)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.average)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.credits)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.progressFactor)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.studentId">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.studentId">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.studentId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

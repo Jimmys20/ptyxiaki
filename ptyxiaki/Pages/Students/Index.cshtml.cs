@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ptyxiaki.Data;
 using ptyxiaki.Models;
 
-namespace ptyxiaki.Pages.Professors
+namespace ptyxiaki.Pages.Students
 {
   public class IndexModel : PageModel
   {
@@ -19,11 +19,11 @@ namespace ptyxiaki.Pages.Professors
       _context = context;
     }
 
-    public IList<Professor> Professor { get; set; }
+    public IList<Student> Student { get; set; }
 
     public async Task OnGetAsync()
     {
-      Professor = await _context.professors.OrderBy(p => p.lastName).ToListAsync();
+      Student = await _context.students.ToListAsync();
     }
   }
 }
