@@ -2,13 +2,13 @@
 @model ptyxiaki.Pages.Students.DetailsModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Λεπτομέρειες";
 }
 
-<h1>Details</h1>
+<h1>@ViewData["Title"]</h1>
 
 <div>
-    <h4>Student</h4>
+    <h4>Φοιτητής</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -61,7 +61,9 @@
         </dd>
     </dl>
 </div>
-<div>
-    <a asp-page="./Edit" asp-route-id="@Model.Student.studentId">Edit</a> |
-    <a asp-page="./Index">Back to List</a>
-</div>
+@if (User.IsInRole(Globals.ProfessorRole))
+{
+    <div>
+        <a asp-page="./Index" asp-route-SearchString="@Model.SearchString">Πίσω στη Λίστα</a>
+    </div>
+}

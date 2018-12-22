@@ -2,41 +2,46 @@
 @model ptyxiaki.Pages.Students.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Φοιτητές";
 }
 
-<h1>Index</h1>
+<h1>@ViewData["Title"]</h1>
 
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
+<form class="form-inline mb-2">
+    <div class="input-group">
+        <input asp-for="SearchString" type="text" class="form-control" placeholder="" />
+        <div class="input-group-append">
+            <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
+        </div>
+    </div>
+</form>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Student[0].firstName)
+                @Html.DisplayNameFor(model => model.Student[0].lastName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Student[0].lastName)
+                @Html.DisplayNameFor(model => model.Student[0].firstName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Student[0].registrationNumber)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Student[0].email)
-            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.Student[0].email)
+                </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.Student[0].semester)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Student[0].average)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Student[0].credits)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Student[0].progressFactor)
-            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.Student[0].average)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Student[0].credits)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Student[0].progressFactor)
+                </th>*@
             <th></th>
         </tr>
     </thead>
@@ -45,35 +50,41 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.firstName)
+                    @Html.DisplayFor(modelItem => item.lastName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.lastName)
+                    @Html.DisplayFor(modelItem => item.firstName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.registrationNumber)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.email)
-                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.email)
+                    </td>*@
                 <td>
                     @Html.DisplayFor(modelItem => item.semester)
                 </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.average)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.credits)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.progressFactor)
+                    </td>*@
                 <td>
-                    @Html.DisplayFor(modelItem => item.average)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.credits)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.progressFactor)
-                </td>
-                <td>
-                    <a asp-page="./Edit" asp-route-id="@item.studentId">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.studentId">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.studentId">Delete</a>
+                    <a asp-page="./Details" asp-route-id="@item.studentId" asp-route-SearchString="@Model.SearchString">Λεπτομέρειες</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+@section Scripts {
+    @*<script>
+            $(document).ready(function() {
+            $('table').DataTable();
+            } );
+        </script>*@
+}
