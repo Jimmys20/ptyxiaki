@@ -5,9 +5,11 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OAuth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -16,7 +18,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Newtonsoft.Json.Linq;
+using ptyxiaki.Authorization;
+using ptyxiaki.Common;
 using ptyxiaki.Data;
 
 namespace ptyxiaki
@@ -45,19 +50,17 @@ namespace ptyxiaki
           options.UseNpgsql(Configuration.GetConnectionString("DepartmentContext")))
         .BuildServiceProvider();
 
-      services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+      services.AddAutoMapper();
+      services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
       services.AddAuthentication(options =>
       {
-        options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = "OAuth";
+        options.DefaultScheme = Globals.AppCookieScheme;
+        options.DefaultSignInScheme = Globals.ExternalCookieScheme;
       })
-      .AddCookie(options =>
-      {
-
-      })
-      .AddOAuth("OAuth", options =>
+      .AddCookie(Globals.AppCookieScheme)
+      .AddCookie(Globals.ExternalCookieScheme)
+      .AddOAuth(Globals.OAuthScheme, options =>
       {
         options.ClientId = Configuration["OAuth:ClientId"];
         options.ClientSecret = Configuration["OAuth:ClientSecret"];
@@ -70,9 +73,12 @@ namespace ptyxiaki
         options.Scope.Add("profile");
 
         options.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "id");
-        options.ClaimActions.MapJsonKey(ClaimTypes.Name, "cn;lang-el");
-        options.ClaimActions.MapJsonKey("am", "am");
+        options.ClaimActions.MapJsonKey(ClaimTypes.GivenName, "givenName;lang-el");
+        options.ClaimActions.MapJsonKey(ClaimTypes.Surname, "sn;lang-el");
+        options.ClaimActions.MapJsonKey(ClaimTypes.Email, "mail");
         options.ClaimActions.MapJsonKey(ClaimTypes.Role, "eduPersonAffiliation");
+        options.ClaimActions.MapJsonKey(Claims.RegistrationNumber, "am");
+        options.ClaimActions.MapJsonKey(Claims.Phone, "telephoneNumber");
 
         options.Events = new OAuthEvents
         {
@@ -90,6 +96,10 @@ namespace ptyxiaki
             var user = JObject.Parse(await response.Content.ReadAsStringAsync());
 
             context.RunClaimActions(user);
+            var db = context.HttpContext.RequestServices.GetRequiredService<DepartmentContext>();
+            var prof = await db.professors.FindAsync(2);
+
+            context.Identity.AddClaim(new Claim("", ""));
           },
           OnRemoteFailure = context =>
           {
@@ -102,10 +112,12 @@ namespace ptyxiaki
 
       services.AddAuthorization(options =>
       {
-        options.AddPolicy("Student", policy => policy.RequireClaim("", ""));
-        options.AddPolicy("Professor", policy => policy.RequireClaim("", ""));
-        options.AddPolicy("Administrator", policy => policy.RequireClaim("", "").RequireClaim("", ""));
+        options.AddPolicy("Student", policy => policy.RequireClaim(ClaimTypes.Role, Globals.StudentRole));
+        options.AddPolicy("Professor", policy => policy.RequireClaim(ClaimTypes.Role, Globals.ProfessorRole));
+        //options.AddPolicy("Administrator", policy => policy.RequireClaim("", "").RequireClaim("", ""));
       });
+
+      services.AddSingleton<IAuthorizationHandler, IsOwnerAuthorizationHander>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
