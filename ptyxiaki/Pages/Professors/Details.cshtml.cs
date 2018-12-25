@@ -2,27 +2,32 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ptyxiaki.Data;
+using ptyxiaki.Extensions;
 using ptyxiaki.Models;
 
 namespace ptyxiaki.Pages.Professors
 {
+  [Authorize(Policy = "Professor")]
   public class DetailsModel : PageModel
   {
-    private readonly ptyxiaki.Data.DepartmentContext _context;
+    private readonly DepartmentContext _context;
 
-    public DetailsModel(ptyxiaki.Data.DepartmentContext context)
+    public DetailsModel(DepartmentContext context)
     {
       _context = context;
     }
 
     public Professor Professor { get; set; }
 
-    public async Task<IActionResult> OnGetAsync(int? id)
+    public async Task<IActionResult> OnGetAsync()
     {
+      var id = User.GetUserId();
+
       if (id == null)
       {
         return NotFound();

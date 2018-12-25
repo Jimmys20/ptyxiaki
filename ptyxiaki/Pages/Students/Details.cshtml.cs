@@ -24,8 +24,6 @@ namespace ptyxiaki.Pages.Students
     }
 
     public Student Student { get; set; }
-    [BindProperty(SupportsGet = true)]
-    public string SearchString { get; set; }
 
     public async Task<IActionResult> OnGetAsync(int? id)
     {

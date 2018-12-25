@@ -12,16 +12,16 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Student.firstName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Student.firstName)
-        </dd>
-        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Student.lastName)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Student.lastName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Student.firstName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Student.firstName)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Student.registrationNumber)
@@ -64,6 +64,6 @@
 @if (User.IsInRole(Globals.ProfessorRole))
 {
     <div>
-        <a asp-page="./Index" asp-route-SearchString="@Model.SearchString">Πίσω στη Λίστα</a>
+        <a asp-page="./Index">Πίσω στη Λίστα</a>
     </div>
 }

@@ -2,69 +2,67 @@
 @model ptyxiaki.Pages.Professors.EditModel
 
 @{
-  ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Επεξεργασία";
 }
 
-<h1>Edit</h1>
+<h1>@ViewData["Title"]</h1>
 
-<h4>Professor</h4>
+<h4>Καθηγητής</h4>
 <hr />
 <div class="row">
-  <div class="col-md-4">
-    <form method="post">
-      <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-      <input type="hidden" asp-for="Professor.professorId" />
-      <div class="form-group">
-        <label asp-for="Professor.oAuthId" class="control-label"></label>
-        <input asp-for="Professor.oAuthId" class="form-control" />
-        <span asp-validation-for="Professor.oAuthId" class="text-danger"></span>
-      </div>
-      <div class="form-group">
-        <label asp-for="Professor.firstName" class="control-label"></label>
-        <input asp-for="Professor.firstName" class="form-control" />
-        <span asp-validation-for="Professor.firstName" class="text-danger"></span>
-      </div>
-      <div class="form-group">
-        <label asp-for="Professor.lastName" class="control-label"></label>
-        <input asp-for="Professor.lastName" class="form-control" />
-        <span asp-validation-for="Professor.lastName" class="text-danger"></span>
-      </div>
-      <div class="form-group">
-        <label asp-for="Professor.place" class="control-label"></label>
-        <input asp-for="Professor.place" class="form-control" />
-        <span asp-validation-for="Professor.place" class="text-danger"></span>
-      </div>
-      <div class="form-group">
-        <label asp-for="Professor.time" class="control-label"></label>
-        <input asp-for="Professor.time" class="form-control" />
-        <span asp-validation-for="Professor.time" class="text-danger"></span>
-      </div>
-      <div class="form-group">
-        <label asp-for="Professor.phone" class="control-label"></label>
-        <input asp-for="Professor.phone" class="form-control" />
-        <span asp-validation-for="Professor.phone" class="text-danger"></span>
-      </div>
-      <div class="form-group">
-        <label asp-for="Professor.fax" class="control-label"></label>
-        <input asp-for="Professor.fax" class="form-control" />
-        <span asp-validation-for="Professor.fax" class="text-danger"></span>
-      </div>
-      <div class="form-group">
-        <label asp-for="Professor.email" class="control-label"></label>
-        <input asp-for="Professor.email" class="form-control" />
-        <span asp-validation-for="Professor.email" class="text-danger"></span>
-      </div>
-      <div class="form-group">
-        <input type="submit" value="Save" class="btn btn-primary" />
-      </div>
-    </form>
-  </div>
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @*<input type="hidden" asp-for="Professor.professorId" />*@
+            @*<div class="form-group">
+                  <label asp-for="Professor.oAuthId" class="control-label"></label>
+                  <input asp-for="Professor.oAuthId" class="form-control" />
+                  <span asp-validation-for="Professor.oAuthId" class="text-danger"></span>
+                </div>*@
+            <div class="form-group">
+                <label asp-for="Professor.lastName" class="control-label"></label>
+                <input asp-for="Professor.lastName" class="form-control" readonly />
+            </div>
+            <div class="form-group">
+                <label asp-for="Professor.firstName" class="control-label"></label>
+                <input asp-for="Professor.firstName" class="form-control" readonly />
+            </div>
+            <div class="form-group">
+                <label asp-for="ProfessorVm.place" class="control-label"></label>
+                <input asp-for="ProfessorVm.place" class="form-control" />
+                <span asp-validation-for="ProfessorVm.place" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProfessorVm.time" class="control-label"></label>
+                <input asp-for="ProfessorVm.time" class="form-control" />
+                <span asp-validation-for="ProfessorVm.time" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProfessorVm.phone" class="control-label"></label>
+                <input asp-for="ProfessorVm.phone" class="form-control" />
+                <span asp-validation-for="ProfessorVm.phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProfessorVm.fax" class="control-label"></label>
+                <input asp-for="ProfessorVm.fax" class="form-control" />
+                <span asp-validation-for="ProfessorVm.fax" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProfessorVm.email" class="control-label"></label>
+                <input asp-for="ProfessorVm.email" class="form-control" />
+                <span asp-validation-for="ProfessorVm.email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Αποθήκευση" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
 </div>
 
 <div>
-  <a asp-page="./Index">Back to List</a>
+    <a asp-page="./Details">Πίσω στις Λεπτομέρειες</a>
 </div>
 
 @section Scripts {
-  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
