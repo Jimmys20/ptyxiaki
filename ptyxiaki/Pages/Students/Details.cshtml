@@ -2,68 +2,94 @@
 @model ptyxiaki.Pages.Students.DetailsModel
 
 @{
-    ViewData["Title"] = "Λεπτομέρειες";
+  ViewData["Title"] = "Λεπτομέρειες";
 }
 
 <h1>@ViewData["Title"]</h1>
 
 <div>
-    <h4>Φοιτητής</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Student.lastName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Student.lastName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Student.firstName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Student.firstName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Student.registrationNumber)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Student.registrationNumber)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Student.email)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Student.email)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Student.semester)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Student.semester)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Student.average)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Student.average)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Student.credits)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Student.credits)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Student.progressFactor)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Student.progressFactor)
-        </dd>
-    </dl>
+  <h4>Φοιτητής</h4>
+  <hr />
+  <dl class="row">
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.Student.lastName)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.Student.lastName)
+    </dd>
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.Student.firstName)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.Student.firstName)
+    </dd>
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.Student.registrationNumber)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.Student.registrationNumber)
+    </dd>
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.Student.email)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.Student.email)
+    </dd>
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.Student.semester)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.Student.semester)
+    </dd>
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.Student.average)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.Student.average)
+    </dd>
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.Student.credits)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.Student.credits)
+    </dd>
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.Student.progressFactor)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.Student.progressFactor)
+    </dd>
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.ActiveThesis)
+    </dt>
+    <dd class="col-sm-10">
+      @if (Model.ActiveThesis != null)
+      {
+        <a asp-page="/Theses/Details" asp-route-id="@Model.ActiveThesis.thesisId">
+          @Model.ActiveThesis.title (Επιβλέπων Καθηγητής: @Model.ActiveThesis.professor.fullName)
+        </a>
+      }
+    </dd>
+    <dt class="col-sm-2 text-truncate">
+      @Html.DisplayNameFor(model => model.CanceledTheses)
+    </dt>
+    <dd class="col-sm-10">
+      <ul class="list-unstyled">
+        @foreach (var thesis in Model.CanceledTheses)
+        {
+          <li>
+            <a asp-page="/Theses/Details" asp-route-id="@thesis.thesisId">
+              @thesis.title (Επιβλέπων Καθηγητής: @thesis.professor.fullName)
+            </a>
+          </li>
+        }
+      </ul>
+    </dd>
+  </dl>
 </div>
 @if (User.IsInRole(Globals.ProfessorRole))
 {
-    <div>
-        <a asp-page="./Index">Πίσω στη Λίστα</a>
-    </div>
+  <div>
+    <a asp-page="./Index">Πίσω στη Λίστα</a>
+  </div>
 }

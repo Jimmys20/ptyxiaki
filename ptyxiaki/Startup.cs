@@ -112,8 +112,9 @@ namespace ptyxiaki
 
       services.AddAuthorization(options =>
       {
-        options.AddPolicy("Student", policy => policy.RequireClaim(ClaimTypes.Role, Globals.StudentRole));
-        options.AddPolicy("Professor", policy => policy.RequireClaim(ClaimTypes.Role, Globals.ProfessorRole));
+        options.AddPolicy(Globals.UserPolicy, policy => policy.RequireClaim(ClaimTypes.Role, Globals.StudentRole, Globals.ProfessorRole));
+        options.AddPolicy(Globals.StudentPolicy, policy => policy.RequireClaim(ClaimTypes.Role, Globals.StudentRole));
+        options.AddPolicy(Globals.ProfessorPolicy, policy => policy.RequireClaim(ClaimTypes.Role, Globals.ProfessorRole));
         //options.AddPolicy("Administrator", policy => policy.RequireClaim("", "").RequireClaim("", ""));
       });
 

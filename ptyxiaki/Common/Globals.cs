@@ -11,11 +11,13 @@ namespace ptyxiaki.Common
     public const string ExternalCookieScheme = "ExternalCookie";
     public const string OAuthScheme = "OAuth";
 
-    public const string ProfessorRole = "staff";
     public const string StudentRole = "student";
+    public const string ProfessorRole = "staff";
 
-    public const string ProfessorPolicy = "Professor";
+    public const string UserPolicy = "User";
     public const string StudentPolicy = "Student";
+    public const string ProfessorPolicy = "Professor";
+    public const string AdministratorPolicy = "Administrator";
   }
 
   public static class Claims

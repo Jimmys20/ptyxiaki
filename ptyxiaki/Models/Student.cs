@@ -13,14 +13,13 @@ namespace ptyxiaki.Models
     public string firstName { get; set; }
     [Display(Name = "Επώνυμο")]
     public string lastName { get; set; }
-    //public string fatherName { get; set; }
     [Display(Name = "Αριθμός Μητρώου")]
     public string registrationNumber { get; set; }
-    [Display(Name = "E-mail")]
+    [Display(Name = "Email")]
     public string email { get; set; }
-    [Display(Name = "Τρέχον Εξάμηνο")]
+    [Display(Name = "Εξάμηνο")]
     public string semester { get; set; }
-    [Display(Name = "Γενικός Μέσος όρος")]
+    [Display(Name = "Γενικός Μέσος 'Ορος")]
     public string average { get; set; }
     [Display(Name = "Διδακτικές Μονάδες")]
     public string credits { get; set; }

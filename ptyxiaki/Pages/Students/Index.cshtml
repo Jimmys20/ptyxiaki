@@ -2,89 +2,82 @@
 @model ptyxiaki.Pages.Students.IndexModel
 
 @{
-    ViewData["Title"] = "Φοιτητές";
+  ViewData["Title"] = "Φοιτητές";
 }
 
 <h1>@ViewData["Title"]</h1>
 
-<form class="form-inline mb-2">
-    <div class="input-group">
-        <input asp-for="SearchString" type="text" class="form-control" placeholder="" />
-        <div class="input-group-append">
-            <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
-        </div>
-    </div>
-</form>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Student[0].lastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Student[0].firstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Student[0].registrationNumber)
-            </th>
-            @*<th>
-                    @Html.DisplayNameFor(model => model.Student[0].email)
-                </th>*@
-            <th>
-                @Html.DisplayNameFor(model => model.Student[0].semester)
-            </th>
-            @*<th>
-                    @Html.DisplayNameFor(model => model.Student[0].average)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Student[0].credits)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Student[0].progressFactor)
-                </th>*@
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Student)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.lastName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.firstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.registrationNumber)
-                </td>
-                @*<td>
-                        @Html.DisplayFor(modelItem => item.email)
-                    </td>*@
-                <td>
-                    @Html.DisplayFor(modelItem => item.semester)
-                </td>
-                @*<td>
-                        @Html.DisplayFor(modelItem => item.average)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.credits)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.progressFactor)
-                    </td>*@
-                <td>
-                    <a asp-page="./Details" asp-route-id="@item.studentId" asp-route-SearchString="@Model.SearchString">Λεπτομέρειες</a>
-                </td>
-            </tr>
-        }
-    </tbody>
+<table id="students" class="table table-striped table-bordered dt-responsive nowrap" style="width: 100%;">
+  <thead>
+    <tr>
+      <th>
+        @Html.DisplayNameFor(model => model.Student[0].lastName)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.Student[0].firstName)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.Student[0].registrationNumber)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.Student[0].semester)
+      </th>
+      <th></th>
+    </tr>
+  </thead>
+  <tfoot>
+    <tr>
+      <th>
+        @Html.DisplayNameFor(model => model.Student[0].lastName)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.Student[0].firstName)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.Student[0].registrationNumber)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.Student[0].semester)
+      </th>
+      <th></th>
+    </tr>
+  </tfoot>
 </table>
 
 @section Scripts {
-    @*<script>
-            $(document).ready(function() {
-            $('table').DataTable();
-            } );
-        </script>*@
+  <script>
+    $(document).ready(function () {
+      $('#students').DataTable({
+        ajax: {
+          type: 'POST',
+          url: '/api/students'
+        },
+        columns: [{
+          data: 'firstName',
+          name: 'firstName'
+        }, {
+          data: 'lastName',
+          name: 'lastName'
+        }, {
+          data: 'registrationNumber',
+          name: 'registrationNumber'
+        }, {
+          data: 'semester',
+          name: 'semester'
+        }, {
+          data: 'studentId',
+          orderable: false,
+          render: function (data, type, row, meta) {
+            return `<a href="/Students/Details?id=${data}">Λεπτομέρειες</a>`;
+          }
+        }],
+        language: {
+          url: 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Greek.json'
+        },
+        serverSide: true,
+        stateDuration: -1,
+        stateSave: true
+      });
+    });
+  </script>
 }
