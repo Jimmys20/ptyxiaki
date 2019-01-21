@@ -11,10 +11,7 @@
   <thead>
     <tr>
       <th>
-        @Html.DisplayNameFor(model => model.Student[0].lastName)
-      </th>
-      <th>
-        @Html.DisplayNameFor(model => model.Student[0].firstName)
+        @Html.DisplayNameFor(model => model.Student[0].fullName)
       </th>
       <th>
         @Html.DisplayNameFor(model => model.Student[0].registrationNumber)
@@ -22,26 +19,21 @@
       <th>
         @Html.DisplayNameFor(model => model.Student[0].semester)
       </th>
-      <th></th>
     </tr>
   </thead>
-  <tfoot>
-    <tr>
-      <th>
-        @Html.DisplayNameFor(model => model.Student[0].lastName)
-      </th>
-      <th>
-        @Html.DisplayNameFor(model => model.Student[0].firstName)
-      </th>
-      <th>
-        @Html.DisplayNameFor(model => model.Student[0].registrationNumber)
-      </th>
-      <th>
-        @Html.DisplayNameFor(model => model.Student[0].semester)
-      </th>
-      <th></th>
-    </tr>
-  </tfoot>
+  @*<tfoot>
+      <tr>
+        <th>
+          @Html.DisplayNameFor(model => model.Student[0].fullName)
+        </th>
+        <th>
+          @Html.DisplayNameFor(model => model.Student[0].registrationNumber)
+        </th>
+        <th>
+          @Html.DisplayNameFor(model => model.Student[0].semester)
+        </th>
+      </tr>
+    </tfoot>*@
 </table>
 
 @section Scripts {
@@ -53,27 +45,22 @@
           url: '/api/students'
         },
         columns: [{
-          data: 'firstName',
-          name: 'firstName'
-        }, {
-          data: 'lastName',
-          name: 'lastName'
+          data: 'fullName',
+          name: 'fullName',
+          render: function (data, type, row, meta) {
+            return `<a href="/Students/Details?id=${row.studentId}">${data}</a>`;
+          }
         }, {
           data: 'registrationNumber',
           name: 'registrationNumber'
         }, {
           data: 'semester',
           name: 'semester'
-        }, {
-          data: 'studentId',
-          orderable: false,
-          render: function (data, type, row, meta) {
-            return `<a href="/Students/Details?id=${data}">Λεπτομέρειες</a>`;
-          }
         }],
         language: {
           url: 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Greek.json'
         },
+        orderMulti: false,
         serverSide: true,
         stateDuration: -1,
         stateSave: true

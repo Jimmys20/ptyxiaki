@@ -28,6 +28,7 @@ namespace ptyxiaki.Models
 
     public ICollection<Assignment> assignments { get; set; }
 
+    [Display(Name = "Ονοματεπώνυμο")]
     public string fullName => $"{lastName} {firstName}";
   }
 }
