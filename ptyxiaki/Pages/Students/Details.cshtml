@@ -24,6 +24,12 @@
       @Html.DisplayFor(model => model.Student.firstName)
     </dd>
     <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.Student.fatherName)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.Student.fatherName)
+    </dd>
+    <dt class="col-sm-2">
       @Html.DisplayNameFor(model => model.Student.registrationNumber)
     </dt>
     <dd class="col-sm-10">
@@ -33,7 +39,8 @@
       @Html.DisplayNameFor(model => model.Student.email)
     </dt>
     <dd class="col-sm-10">
-      @Html.DisplayFor(model => model.Student.email)
+      <a href="mailto:@Model.Student.email">@Model.Student.email</a>
+      @*@Html.DisplayFor(model => model.Student.email)*@
     </dd>
     <dt class="col-sm-2">
       @Html.DisplayNameFor(model => model.Student.semester)

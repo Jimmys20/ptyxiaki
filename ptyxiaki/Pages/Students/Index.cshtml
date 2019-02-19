@@ -14,10 +14,25 @@
         @Html.DisplayNameFor(model => model.Student[0].fullName)
       </th>
       <th>
+        @Html.DisplayNameFor(model => model.Student[0].fatherName)
+      </th>
+      <th>
         @Html.DisplayNameFor(model => model.Student[0].registrationNumber)
       </th>
       <th>
+        @Html.DisplayNameFor(model => model.Student[0].email)
+      </th>
+      <th>
         @Html.DisplayNameFor(model => model.Student[0].semester)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.Student[0].average)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.Student[0].credits)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.Student[0].progressFactor)
       </th>
     </tr>
   </thead>
@@ -46,16 +61,26 @@
         },
         columns: [{
           data: 'fullName',
-          name: 'fullName',
           render: function (data, type, row, meta) {
             return `<a href="/Students/Details?id=${row.studentId}">${data}</a>`;
           }
         }, {
-          data: 'registrationNumber',
-          name: 'registrationNumber'
+          data: 'fatherName'
         }, {
-          data: 'semester',
-          name: 'semester'
+          data: 'registrationNumber'
+        }, {
+          data: 'email',
+          render: function (data, type, row, meta) {
+            return `<a href="mailto:${data}">${data}</a>`;
+          }
+        }, {
+          data: 'semester'
+        }, {
+          data: 'average'
+        }, {
+          data: 'credits'
+        }, {
+          data: 'progressFactor'
         }],
         language: {
           url: 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Greek.json'
