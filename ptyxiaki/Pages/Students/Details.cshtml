@@ -39,8 +39,7 @@
       @Html.DisplayNameFor(model => model.Student.email)
     </dt>
     <dd class="col-sm-10">
-      <a href="mailto:@Model.Student.email">@Model.Student.email</a>
-      @*@Html.DisplayFor(model => model.Student.email)*@
+      @Html.DisplayFor(model => model.Student.email)
     </dd>
     <dt class="col-sm-2">
       @Html.DisplayNameFor(model => model.Student.semester)
@@ -72,9 +71,7 @@
     <dd class="col-sm-10">
       @if (Model.ActiveThesis != null)
       {
-        <a asp-page="/Theses/Details" asp-route-id="@Model.ActiveThesis.thesisId">
-          @Model.ActiveThesis.title (Επιβλέπων Καθηγητής: @Model.ActiveThesis.professor.fullName)
-        </a>
+        <a asp-page="/Theses/Details" asp-route-id="@Model.ActiveThesis.thesisId">@Model.ActiveThesis.title</a>
       }
     </dd>
     <dt class="col-sm-2 text-truncate">
@@ -85,9 +82,7 @@
         @foreach (var thesis in Model.CanceledTheses)
         {
           <li>
-            <a asp-page="/Theses/Details" asp-route-id="@thesis.thesisId">
-              @thesis.title (Επιβλέπων Καθηγητής: @thesis.professor.fullName)
-            </a>
+            <a asp-page="/Theses/Details" asp-route-id="@thesis.thesisId">@thesis.title</a>
           </li>
         }
       </ul>

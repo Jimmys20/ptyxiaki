@@ -10,28 +10,20 @@ namespace ptyxiaki.Models
   public class Student
   {
     public int studentId { get; set; }
-    [Name("ΟΝΟΜΑ")]
     [Display(Name = "Όνομα")]
     public string firstName { get; set; }
-    [Name("ΕΠΩΝΥΜΟ")]
     [Display(Name = "Επώνυμο")]
     public string lastName { get; set; }
-    [Name("ΠΑΤΡΩΝΥΜΟ")]
     [Display(Name = "Πατρώνυμο")]
     public string fatherName { get; set; }
-    [Name("Α.Μ.")]
     [Display(Name = "Αριθμός μητρώου")]
     public int registrationNumber { get; set; }
-    [Name("ΕΞΑΜΗΝΟ")]
     [Display(Name = "Εξάμηνο")]
     public int semester { get; set; }
-    [Name("ΒΑΘΜΟΣ")]
     [Display(Name = "Γενικός μέσος όρος")]
     public float average { get; set; }
-    [Name("ΠΕΡΑΣΜΕΝΣ Δ.Μ.")]
     [Display(Name = "Διδακτικές μονάδες")]
     public int credits { get; set; }
-    [Name("ΣΥΝΤΕΛΕΣΤΗΣ ΠΡΟΟΔΟΥ")]
     [Display(Name = "Συντελεστής προόδου")]
     public int progressFactor { get; set; }
 
@@ -39,7 +31,28 @@ namespace ptyxiaki.Models
 
     [Display(Name = "Ονοματεπώνυμο")]
     public string fullName => $"{lastName} {firstName}";
+    [DataType(DataType.EmailAddress)]
     [Display(Name = "Email")]
     public string email => $"it{registrationNumber}@it.teithe.gr";
+  }
+
+  public class StudentVm
+  {
+    [Name("ΟΝΟΜΑ")]
+    public string firstName { get; set; }
+    [Name("ΕΠΩΝΥΜΟ")]
+    public string lastName { get; set; }
+    [Name("ΠΑΤΡΩΝΥΜΟ")]
+    public string fatherName { get; set; }
+    [Name("Α.Μ.")]
+    public int registrationNumber { get; set; }
+    [Name("ΕΞΑΜΗΝΟ")]
+    public int semester { get; set; }
+    [Name("ΒΑΘΜΟΣ")]
+    public float average { get; set; }
+    [Name("ΠΕΡΑΣΜΕΝΣ Δ.Μ.")]
+    public int credits { get; set; }
+    [Name("ΣΥΝΤΕΛΕΣΤΗΣ ΠΡΟΟΔΟΥ")]
+    public int progressFactor { get; set; }
   }
 }

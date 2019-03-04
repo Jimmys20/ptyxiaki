@@ -25,10 +25,10 @@ namespace ptyxiaki.Pages.Students
     }
 
     public Student Student { get; set; }
-    [Display(Name = "Τρέχουσα Πτυχιακή Εργασία")]
+    [Display(Name = "Τρέχουσα πτυχιακή εργασία")]
     public Thesis ActiveThesis { get; set; }
-    [Display(Name = "Ακυρωμένες Πτυχιακές Εργασίες")]
-    public ICollection<Thesis> CanceledTheses { get; set; }
+    [Display(Name = "Ακυρωμένες πτυχιακές εργασίες")]
+    public IList<Thesis> CanceledTheses { get; set; }
 
     public async Task<IActionResult> OnGetAsync(int? id)
     {
@@ -48,17 +48,18 @@ namespace ptyxiaki.Pages.Students
       }
 
       Student = await _context.students
-        .Include(s => s.assignments).ThenInclude(a => a.thesis).ThenInclude(t => t.professor)
-        .FirstOrDefaultAsync(m => m.studentId == id);
-
-      var theses = Student.assignments.Select(a => a.thesis);
-      ActiveThesis = theses.FirstOrDefault(t => t.status == Status.Active);
-      CanceledTheses = theses.Where(t => t.status == Status.Canceled).ToList();
+        .Include(s => s.assignments).ThenInclude(a => a.thesis)
+        .FirstOrDefaultAsync(s => s.studentId == id);
 
       if (Student == null)
       {
         return NotFound();
       }
+
+      var theses = Student.assignments.Select(a => a.thesis);
+      ActiveThesis = theses.FirstOrDefault(t => t.status == Status.Active);
+      CanceledTheses = theses.Where(t => t.status == Status.Canceled).ToList();
+
       return Page();
     }
   }
