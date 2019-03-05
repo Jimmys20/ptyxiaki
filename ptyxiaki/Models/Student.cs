@@ -27,7 +27,7 @@ namespace ptyxiaki.Models
     [Display(Name = "Συντελεστής προόδου")]
     public int progressFactor { get; set; }
 
-    public ICollection<Assignment> assignments { get; set; }
+    public List<Assignment> assignments { get; set; }
 
     [Display(Name = "Ονοματεπώνυμο")]
     public string fullName => $"{lastName} {firstName}";

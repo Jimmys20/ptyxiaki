@@ -22,7 +22,7 @@ namespace ptyxiaki.Pages.Students
       _context = context;
     }
 
-    public IList<Student> Student { get; set; }
+    public List<Student> Student { get; set; }
 
     public async Task OnGetAsync()
     {

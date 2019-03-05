@@ -10,6 +10,7 @@
 <table id="students" class="table table-striped table-bordered dt-responsive nowrap" style="width: 100%;">
   <thead>
     <tr>
+      <th></th>
       <th>
         @Html.DisplayNameFor(model => model.Student[0].fullName)
       </th>
@@ -60,6 +61,11 @@
           url: '/api/students'
         },
         columns: [{
+          className: 'control',
+          data: null,
+          defaultContent: "",
+          orderable: false
+        }, {
           data: 'fullName',
           render: function (data, type, row, meta) {
             return `<a href="/Students/Details?id=${row.studentId}">${data}</a>`;
@@ -85,7 +91,13 @@
         language: {
           url: 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Greek.json'
         },
+        order: [1, 'asc'],
         orderMulti: false,
+        responsive: {
+          details: {
+            type: 'column'
+          }
+        },
         serverSide: true,
         stateDuration: -1,
         stateSave: true

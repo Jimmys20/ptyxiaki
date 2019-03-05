@@ -28,7 +28,7 @@ namespace ptyxiaki.Pages.Students
     [Display(Name = "Τρέχουσα πτυχιακή εργασία")]
     public Thesis ActiveThesis { get; set; }
     [Display(Name = "Ακυρωμένες πτυχιακές εργασίες")]
-    public IList<Thesis> CanceledTheses { get; set; }
+    public List<Thesis> CanceledTheses { get; set; }
 
     public async Task<IActionResult> OnGetAsync(int? id)
     {
