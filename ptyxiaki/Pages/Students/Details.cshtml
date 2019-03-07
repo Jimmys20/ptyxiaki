@@ -12,84 +12,76 @@
   <hr />
   <dl class="row">
     <dt class="col-sm-2">
-      @Html.DisplayNameFor(model => model.Student.lastName)
+      @Html.DisplayNameFor(model => model.student.lastName)
     </dt>
     <dd class="col-sm-10">
-      @Html.DisplayFor(model => model.Student.lastName)
+      @Html.DisplayFor(model => model.student.lastName)
     </dd>
     <dt class="col-sm-2">
-      @Html.DisplayNameFor(model => model.Student.firstName)
+      @Html.DisplayNameFor(model => model.student.firstName)
     </dt>
     <dd class="col-sm-10">
-      @Html.DisplayFor(model => model.Student.firstName)
+      @Html.DisplayFor(model => model.student.firstName)
     </dd>
     <dt class="col-sm-2">
-      @Html.DisplayNameFor(model => model.Student.fatherName)
+      @Html.DisplayNameFor(model => model.student.fatherName)
     </dt>
     <dd class="col-sm-10">
-      @Html.DisplayFor(model => model.Student.fatherName)
+      @Html.DisplayFor(model => model.student.fatherName)
     </dd>
     <dt class="col-sm-2">
-      @Html.DisplayNameFor(model => model.Student.registrationNumber)
+      @Html.DisplayNameFor(model => model.student.registrationNumber)
     </dt>
     <dd class="col-sm-10">
-      @Html.DisplayFor(model => model.Student.registrationNumber)
+      @Html.DisplayFor(model => model.student.registrationNumber)
     </dd>
     <dt class="col-sm-2">
-      @Html.DisplayNameFor(model => model.Student.email)
+      @Html.DisplayNameFor(model => model.student.email)
     </dt>
     <dd class="col-sm-10">
-      @Html.DisplayFor(model => model.Student.email)
+      @Html.DisplayFor(model => model.student.email)
     </dd>
     <dt class="col-sm-2">
-      @Html.DisplayNameFor(model => model.Student.semester)
+      @Html.DisplayNameFor(model => model.student.semester)
     </dt>
     <dd class="col-sm-10">
-      @Html.DisplayFor(model => model.Student.semester)
+      @Html.DisplayFor(model => model.student.semester)
     </dd>
     <dt class="col-sm-2">
-      @Html.DisplayNameFor(model => model.Student.average)
+      @Html.DisplayNameFor(model => model.student.average)
     </dt>
     <dd class="col-sm-10">
-      @Html.DisplayFor(model => model.Student.average)
+      @Html.DisplayFor(model => model.student.average)
     </dd>
     <dt class="col-sm-2">
-      @Html.DisplayNameFor(model => model.Student.credits)
+      @Html.DisplayNameFor(model => model.student.credits)
     </dt>
     <dd class="col-sm-10">
-      @Html.DisplayFor(model => model.Student.credits)
+      @Html.DisplayFor(model => model.student.credits)
     </dd>
     <dt class="col-sm-2">
-      @Html.DisplayNameFor(model => model.Student.progressFactor)
+      @Html.DisplayNameFor(model => model.student.progressFactor)
     </dt>
     <dd class="col-sm-10">
-      @Html.DisplayFor(model => model.Student.progressFactor)
+      @Html.DisplayFor(model => model.student.progressFactor)
     </dd>
     <dt class="col-sm-2">
-      @Html.DisplayNameFor(model => model.ActiveThesis)
-    </dt>
-    <dd class="col-sm-10">
-      @if (Model.ActiveThesis != null)
-      {
-        <a asp-page="/Theses/Details" asp-route-id="@Model.ActiveThesis.thesisId">@Model.ActiveThesis.title</a>
-      }
-    </dd>
-    <dt class="col-sm-2 text-truncate">
-      @Html.DisplayNameFor(model => model.CanceledTheses)
+      @Html.DisplayNameFor(model => model.theses)
     </dt>
     <dd class="col-sm-10">
       <ul class="list-unstyled">
-        @foreach (var thesis in Model.CanceledTheses)
+        @foreach (var thesis in Model.theses)
         {
           <li>
-            <a asp-page="/Theses/Details" asp-route-id="@thesis.thesisId">@thesis.title</a>
+            <span>@Html.DisplayFor(model => thesis.status) - </span>
+            <a asp-page="/Theses/Details" asp-route-id="@thesis.thesisId">@Html.DisplayFor(model => thesis.title)</a>
           </li>
         }
       </ul>
     </dd>
   </dl>
 </div>
-@if (User.IsInRole(Globals.ProfessorRole))
+@if (User.IsInRole(Globals.PROFESSOR_ROLE))
 {
   <div>
     <a asp-page="./Index">Φοιτητές</a>

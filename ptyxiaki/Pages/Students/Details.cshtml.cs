@@ -14,32 +14,30 @@ using ptyxiaki.Models;
 
 namespace ptyxiaki.Pages.Students
 {
-  [Authorize(Policy = Globals.UserPolicy)]
+  [Authorize(Policy = Globals.USER_POLICY)]
   public class DetailsModel : PageModel
   {
-    private readonly DepartmentContext _context;
+    private readonly DepartmentContext context;
 
     public DetailsModel(DepartmentContext context)
     {
-      _context = context;
+      this.context = context;
     }
 
-    public Student Student { get; set; }
-    [Display(Name = "Τρέχουσα πτυχιακή εργασία")]
-    public Thesis ActiveThesis { get; set; }
-    [Display(Name = "Ακυρωμένες πτυχιακές εργασίες")]
-    public List<Thesis> CanceledTheses { get; set; }
+    public Student student { get; set; }
+    [Display(Name = "Πτυχιακές εργασίες")]
+    public List<Thesis> theses { get; set; }
 
     public async Task<IActionResult> OnGetAsync(int? id)
     {
-      if (User.IsInRole(Globals.StudentRole))
+      if (User.IsInRole(Globals.STUDENT_ROLE))
       {
         if (id != null)
         {
           return Forbid();
         }
 
-        id = User.GetUserId();
+        id = User.getUserId();
       }
 
       if (id == null)
@@ -47,18 +45,19 @@ namespace ptyxiaki.Pages.Students
         return NotFound();
       }
 
-      Student = await _context.students
+      student = await context.students
         .Include(s => s.assignments).ThenInclude(a => a.thesis)
         .FirstOrDefaultAsync(s => s.studentId == id);
 
-      if (Student == null)
+      if (student == null)
       {
         return NotFound();
       }
 
-      var theses = Student.assignments.Select(a => a.thesis);
-      ActiveThesis = theses.FirstOrDefault(t => t.status == Status.Active);
-      CanceledTheses = theses.Where(t => t.status == Status.Canceled).ToList();
+      theses = student.assignments
+        .Select(a => a.thesis)
+        .OrderBy(t => t.assignedAt)
+        .ToList();
 
       return Page();
     }

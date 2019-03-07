@@ -12,17 +12,17 @@ using ptyxiaki.Models;
 
 namespace ptyxiaki.Pages.Students
 {
-  [Authorize(Policy = Globals.ProfessorPolicy)]
+  [Authorize(Policy = Globals.PROFESSOR_POLICY)]
   public class IndexModel : PageModel
   {
-    private readonly DepartmentContext _context;
+    private readonly DepartmentContext context;
 
     public IndexModel(DepartmentContext context)
     {
-      _context = context;
+      this.context = context;
     }
 
-    public List<Student> Student { get; set; }
+    public List<Student> students { get; set; }
 
     public async Task OnGetAsync()
     {
