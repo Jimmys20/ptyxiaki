@@ -55,12 +55,12 @@ namespace ptyxiaki
 
       services.AddAuthentication(options =>
       {
-        options.DefaultScheme = Globals.AppCookieScheme;
-        options.DefaultSignInScheme = Globals.ExternalCookieScheme;
+        options.DefaultScheme = Globals.APP_COOKIE_SCHEME;
+        options.DefaultSignInScheme = Globals.EXTERNAL_COOKIE_SCHEME;
       })
-      .AddCookie(Globals.AppCookieScheme)
-      .AddCookie(Globals.ExternalCookieScheme)
-      .AddOAuth(Globals.OAuthScheme, options =>
+      .AddCookie(Globals.APP_COOKIE_SCHEME)
+      .AddCookie(Globals.EXTERNAL_COOKIE_SCHEME)
+      .AddOAuth(Globals.O_AUTH_SCHEME, options =>
       {
         options.ClientId = Configuration["OAuth:ClientId"];
         options.ClientSecret = Configuration["OAuth:ClientSecret"];
@@ -77,8 +77,8 @@ namespace ptyxiaki
         options.ClaimActions.MapJsonKey(ClaimTypes.Surname, "sn;lang-el");
         options.ClaimActions.MapJsonKey(ClaimTypes.Email, "mail");
         options.ClaimActions.MapJsonKey(ClaimTypes.Role, "eduPersonAffiliation");
-        options.ClaimActions.MapJsonKey(Claims.RegistrationNumber, "am");
-        options.ClaimActions.MapJsonKey(Claims.Phone, "telephoneNumber");
+        options.ClaimActions.MapJsonKey(Claims.REGISTRATION_NUMBER, "am");
+        options.ClaimActions.MapJsonKey(Claims.PHONE, "telephoneNumber");
 
         options.Events = new OAuthEvents
         {
@@ -96,10 +96,10 @@ namespace ptyxiaki
             var user = JObject.Parse(await response.Content.ReadAsStringAsync());
 
             context.RunClaimActions(user);
-            var db = context.HttpContext.RequestServices.GetRequiredService<DepartmentContext>();
-            var prof = await db.professors.FindAsync(2);
+            //var db = context.HttpContext.RequestServices.GetRequiredService<DepartmentContext>();
+            //var prof = await db.professors.FindAsync(2);
 
-            context.Identity.AddClaim(new Claim("", ""));
+            //context.Identity.AddClaim(new Claim("", ""));
           },
           OnRemoteFailure = context =>
           {
@@ -112,10 +112,10 @@ namespace ptyxiaki
 
       services.AddAuthorization(options =>
       {
-        options.AddPolicy(Globals.UserPolicy, policy => policy.RequireClaim(ClaimTypes.Role, Globals.StudentRole, Globals.ProfessorRole));
-        options.AddPolicy(Globals.StudentPolicy, policy => policy.RequireClaim(ClaimTypes.Role, Globals.StudentRole));
-        options.AddPolicy(Globals.ProfessorPolicy, policy => policy.RequireClaim(ClaimTypes.Role, Globals.ProfessorRole));
-        //options.AddPolicy("Administrator", policy => policy.RequireClaim("", "").RequireClaim("", ""));
+        options.AddPolicy(Globals.USER_POLICY, policy => policy.RequireRole(Globals.STUDENT_ROLE, Globals.PROFESSOR_ROLE));
+        options.AddPolicy(Globals.STUDENT_POLICY, policy => policy.RequireRole(Globals.STUDENT_ROLE));
+        options.AddPolicy(Globals.PROFESSOR_POLICY, policy => policy.RequireRole(Globals.PROFESSOR_ROLE));
+        options.AddPolicy(Globals.ADMINISTRATOR_POLICY, policy => policy.RequireRole(Globals.ADMINISTRATOR_ROLE));
       });
 
       services.AddSingleton<IAuthorizationHandler, IsOwnerAuthorizationHander>();
