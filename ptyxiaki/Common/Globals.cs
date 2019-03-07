@@ -7,22 +7,23 @@ namespace ptyxiaki.Common
 {
   public static class Globals
   {
-    public const string AppCookieScheme = "AppCookie";
-    public const string ExternalCookieScheme = "ExternalCookie";
-    public const string OAuthScheme = "OAuth";
+    public const string APP_COOKIE_SCHEME = "APP_COOKIE_SCHEME";
+    public const string EXTERNAL_COOKIE_SCHEME = "EXTERNAL_COOKIE_SCHEME";
+    public const string O_AUTH_SCHEME = "O_AUTH_SCHEME";
 
-    public const string StudentRole = "student";
-    public const string ProfessorRole = "staff";
+    public const string STUDENT_ROLE = "student";
+    public const string PROFESSOR_ROLE = "staff";
+    public const string ADMINISTRATOR_ROLE = "ADMINISTRATOR_ROLE";
 
-    public const string UserPolicy = "User";
-    public const string StudentPolicy = "Student";
-    public const string ProfessorPolicy = "Professor";
-    public const string AdministratorPolicy = "Administrator";
+    public const string USER_POLICY = "USER_POLICY";
+    public const string STUDENT_POLICY = "STUDENT_POLICY";
+    public const string PROFESSOR_POLICY = "PROFESSOR_POLICY";
+    public const string ADMINISTRATOR_POLICY = "ADMINISTRATOR_POLICY";
   }
 
   public static class Claims
   {
-    public const string RegistrationNumber = "urn:oauth:registrationnumber";
-    public const string Phone = "urn:oauth:phone";
+    public const string REGISTRATION_NUMBER = "REGISTRATION_NUMBER";
+    public const string PHONE = "PHONE";
   }
 }
