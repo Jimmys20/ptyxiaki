@@ -14,10 +14,10 @@ namespace ptyxiaki.Models
       CreateMap<Thesis, ThesisVm>().ReverseMap();
       CreateMap<Student, StudentVm>().ReverseMap();
 
-      CreateMap<ThesisCategory, int>().ConvertUsing(o => o.categoryId);
-      CreateMap<int, ThesisCategory>().ConvertUsing(o => new ThesisCategory { categoryId = o });
-      CreateMap<ThesisCourse, int>().ConvertUsing(o => o.courseId);
-      CreateMap<int, ThesisCourse>().ConvertUsing(o => new ThesisCourse { courseId = o });
+      CreateMap<Categorization, int>().ConvertUsing(o => o.categoryId);
+      CreateMap<int, Categorization>().ConvertUsing(o => new Categorization { categoryId = o });
+      CreateMap<Requirement, int>().ConvertUsing(o => o.courseId);
+      CreateMap<int, Requirement>().ConvertUsing(o => new Requirement { courseId = o });
       CreateMap<Assignment, int>().ConvertUsing(o => o.studentId);
       CreateMap<int, Assignment>().ConvertUsing(o => new Assignment { studentId = o });
     }

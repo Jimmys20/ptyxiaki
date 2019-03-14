@@ -69,11 +69,11 @@
       @Html.DisplayNameFor(model => model.theses)
     </dt>
     <dd class="col-sm-10">
-      <ul class="list-unstyled">
+      <ul class="list-unstyled mb-0">
         @foreach (var thesis in Model.theses)
         {
           <li>
-            <span>@Html.DisplayFor(model => thesis.status) - </span>
+            <span>@Html.DisplayFor(model => thesis.status) -> </span>
             <a asp-page="/Theses/Details" asp-route-id="@thesis.thesisId">@Html.DisplayFor(model => thesis.title)</a>
           </li>
         }

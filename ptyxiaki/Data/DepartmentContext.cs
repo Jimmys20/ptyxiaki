@@ -14,10 +14,10 @@ namespace ptyxiaki.Data
 
     public DbSet<Thesis> theses { get; set; }
     public DbSet<Category> categories { get; set; }
-    public DbSet<ThesisCategory> thesisCategories { get; set; }
+    public DbSet<Categorization> categorizations { get; set; }
 
     public DbSet<Course> courses { get; set; }
-    public DbSet<ThesisCourse> thesisCourses { get; set; }
+    public DbSet<Requirement> requirements { get; set; }
     public DbSet<Grade> grades { get; set; }
 
     public DbSet<Student> students { get; set; }
