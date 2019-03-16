@@ -51,7 +51,12 @@ namespace ptyxiaki
         .BuildServiceProvider();
 
       services.AddAutoMapper();
-      services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+      services.AddMvc()
+        .AddRazorPagesOptions(options =>
+        {
+          options.Conventions.AuthorizeFolder("/Administration", Globals.ADMINISTRATOR_POLICY);
+        })
+        .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
       services.AddAuthentication(options =>
       {
