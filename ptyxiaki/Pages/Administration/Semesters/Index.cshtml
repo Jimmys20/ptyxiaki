@@ -1,0 +1,41 @@
+﻿@page
+@model ptyxiaki.Pages.Administration.Semesters.IndexModel
+
+@{
+  ViewData["Title"] = "Εξάμηνα";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+  <a asp-page="Create">Δημιουργία νέου</a>
+</p>
+<table class="table">
+  <thead>
+    <tr>
+      <th>
+        @Html.DisplayNameFor(model => model.semesters[0].title)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.semesters[0].createdAt)
+      </th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var item in Model.semesters)
+    {
+      <tr>
+        <td>
+          @Html.DisplayFor(modelItem => item.title)
+        </td>
+        <td>
+          @Html.DisplayFor(modelItem => item.createdAt)
+        </td>
+        <td>
+          <a asp-page="./Edit" asp-route-id="@item.semesterId">Επεξεργασία</a>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
