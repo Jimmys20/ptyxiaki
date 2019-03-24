@@ -41,7 +41,7 @@
 
 @section Scripts {
   <script>
-    $(document).ready(function () {
+    $(function () {
       $('#students').DataTable({
         ajax: {
           type: 'POST',
@@ -70,15 +70,12 @@
         }, {
           data: 'semester'
         }, {
-          data: 'average'
+          data: 'average_'
         }, {
           data: 'credits'
         }, {
           data: 'progressFactor'
         }],
-        language: {
-          url: 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Greek.json'
-        },
         order: [1, 'asc'],
         orderMulti: false,
         responsive: {
@@ -86,9 +83,7 @@
             type: 'column'
           }
         },
-        serverSide: true,
-        stateDuration: -1,
-        stateSave: true
+        serverSide: true
       });
     });
   </script>

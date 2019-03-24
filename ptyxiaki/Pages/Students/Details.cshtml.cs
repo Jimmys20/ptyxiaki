@@ -25,8 +25,6 @@ namespace ptyxiaki.Pages.Students
     }
 
     public Student student { get; set; }
-    [Display(Name = "Πτυχιακές εργασίες")]
-    public List<Thesis> theses { get; set; }
 
     public async Task<IActionResult> OnGetAsync(int? id)
     {
@@ -53,12 +51,6 @@ namespace ptyxiaki.Pages.Students
       {
         return NotFound();
       }
-
-      theses = student.assignments
-        .Select(a => a.thesis)
-        .OrderBy(t => t.assignedAt)
-        .ToList();
-
       return Page();
     }
   }

@@ -51,7 +51,7 @@
       @Html.DisplayNameFor(model => model.student.average)
     </dt>
     <dd class="col-sm-10">
-      @Html.DisplayFor(model => model.student.average)
+      @Html.DisplayFor(model => model.student.average_)
     </dd>
     <dt class="col-sm-2">
       @Html.DisplayNameFor(model => model.student.credits)
@@ -66,11 +66,11 @@
       @Html.DisplayFor(model => model.student.progressFactor)
     </dd>
     <dt class="col-sm-2">
-      @Html.DisplayNameFor(model => model.theses)
+      @Html.DisplayNameFor(model => model.student.assignments)
     </dt>
     <dd class="col-sm-10">
       <ul class="list-unstyled mb-0">
-        @foreach (var thesis in Model.theses)
+        @foreach (var thesis in Model.student.assignments.Select(a => a.thesis).OrderBy(t => t.assignedAt).ToList())
         {
           <li>
             <span>@Html.DisplayFor(model => thesis.status) -> </span>

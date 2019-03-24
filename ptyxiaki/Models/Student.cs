@@ -27,6 +27,7 @@ namespace ptyxiaki.Models
     [Display(Name = "Συντελεστής προόδου")]
     public int progressFactor { get; set; }
 
+    [Display(Name = "Πτυχιακές εργασίες")]
     public List<Assignment> assignments { get; set; }
     public List<Declaration> declarations { get; set; }
     public List<Grade> grades { get; set; }
@@ -36,6 +37,7 @@ namespace ptyxiaki.Models
     [DataType(DataType.EmailAddress)]
     [Display(Name = "Email")]
     public string email => $"it{registrationNumber}@it.teithe.gr";
+    public string average_ => average.ToString("0.#");
   }
 
   public class StudentVm
