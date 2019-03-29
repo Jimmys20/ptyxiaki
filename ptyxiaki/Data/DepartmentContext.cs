@@ -27,6 +27,6 @@ namespace ptyxiaki.Data
     public DbSet<Professor> professors { get; set; }
 
     public DbSet<Semester> semesters { get; set; }
-    public DbSet<Options> options { get; set; }
+    public DbSet<Date> dates { get; set; }
   }
 }

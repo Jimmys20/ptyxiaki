@@ -12,18 +12,18 @@ namespace ptyxiaki.Pages.Professors
 {
   public class IndexModel : PageModel
   {
-    private readonly DepartmentContext _context;
+    private readonly DepartmentContext context;
 
     public IndexModel(DepartmentContext context)
     {
-      _context = context;
+      this.context = context;
     }
 
-    public IList<Professor> Professor { get; set; }
+    public List<Professor> professors { get; set; }
 
     public async Task OnGetAsync()
     {
-      Professor = await _context.professors.OrderBy(p => p.lastName).ToListAsync();
+      professors = await context.professors.ToListAsync();
     }
   }
 }

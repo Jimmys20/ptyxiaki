@@ -20,7 +20,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Newtonsoft.Json.Linq;
-using ptyxiaki.Authorization;
 using ptyxiaki.Common;
 using ptyxiaki.Data;
 
@@ -122,8 +121,6 @@ namespace ptyxiaki
         options.AddPolicy(Globals.PROFESSOR_POLICY, policy => policy.RequireRole(Globals.PROFESSOR_ROLE));
         options.AddPolicy(Globals.ADMINISTRATOR_POLICY, policy => policy.RequireRole(Globals.ADMINISTRATOR_ROLE));
       });
-
-      services.AddSingleton<IAuthorizationHandler, IsOwnerAuthorizationHander>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -16,39 +16,38 @@ using ptyxiaki.Models;
 
 namespace ptyxiaki.Pages.Professors
 {
-  [Authorize(Policy = "Professor")]
+  [Authorize(Policy = Globals.PROFESSOR_POLICY)]
   public class EditModel : PageModel
   {
-    private readonly DepartmentContext _context;
-    private readonly IMapper _mapper;
+    private readonly DepartmentContext context;
+    private readonly IMapper mapper;
 
     public EditModel(DepartmentContext context, IMapper mapper)
     {
-      _context = context;
-      _mapper = mapper;
+      this.context = context;
+      this.mapper = mapper;
     }
 
-    public Professor Professor { get; set; }
     [BindProperty]
-    public ProfessorVm ProfessorVm { get; set; }
+    public ProfessorVm professorVm { get; set; }
 
     public async Task<IActionResult> OnGetAsync()
     {
-      var id = User.GetUserId();
+      var id = User.getUserId();
 
       if (id == null)
       {
         return NotFound();
       }
 
-      Professor = await _context.professors.FirstOrDefaultAsync(m => m.professorId == id);
+      var professor = await context.professors.FirstOrDefaultAsync(m => m.professorId == id);
 
-      if (Professor == null)
+      if (professor == null)
       {
         return NotFound();
       }
 
-      ProfessorVm = _mapper.Map<ProfessorVm>(Professor);
+      professorVm = mapper.Map<ProfessorVm>(professor);
 
       return Page();
     }
@@ -60,19 +59,17 @@ namespace ptyxiaki.Pages.Professors
         return Page();
       }
 
-      var professorId = User.GetUserId();
-      var professor = await _context.FindAsync<Professor>(professorId);
-      _mapper.Map(ProfessorVm, professor);
-
-      _context.Attach(professor).State = EntityState.Modified;
+      var id = User.getUserId();
+      var professor = await context.professors.FirstOrDefaultAsync(p => p.professorId == id);
+      mapper.Map(professorVm, professor);
 
       try
       {
-        await _context.SaveChangesAsync();
+        await context.SaveChangesAsync();
       }
       catch (DbUpdateConcurrencyException)
       {
-        if (!ProfessorExists(professorId))
+        if (!professorExists(professor.professorId))
         {
           return NotFound();
         }
@@ -85,9 +82,9 @@ namespace ptyxiaki.Pages.Professors
       return RedirectToPage("./Details");
     }
 
-    private bool ProfessorExists(int? id)
+    private bool professorExists(int? id)
     {
-      return _context.professors.Any(e => e.professorId == id);
+      return context.professors.Any(e => e.professorId == id);
     }
   }
 }

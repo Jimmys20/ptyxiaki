@@ -2,62 +2,45 @@
 @model ptyxiaki.Pages.Professors.IndexModel
 
 @{
-  ViewData["Title"] = "Index";
+  ViewData["Title"] = "Καθηγητές";
 }
 
-<h1>Index</h1>
+<h1>@ViewData["Title"]</h1>
 
-<p>
-  <a asp-page="Create">Create New</a>
-</p>
-<table class="table">
+<table id="professors" class="table table-striped table-bordered dt-responsive nowrap" style="width: 100%;">
   <thead>
     <tr>
-      <th>
-        @Html.DisplayNameFor(model => model.Professor[0].oAuthId)
-      </th>
-      <th>
-        @Html.DisplayNameFor(model => model.Professor[0].firstName)
-      </th>
-      <th>
-        @Html.DisplayNameFor(model => model.Professor[0].lastName)
-      </th>
-      <th>
-        @Html.DisplayNameFor(model => model.Professor[0].place)
-      </th>
-      <th>
-        @Html.DisplayNameFor(model => model.Professor[0].time)
-      </th>
-      <th>
-        @Html.DisplayNameFor(model => model.Professor[0].phone)
-      </th>
-      <th>
-        @Html.DisplayNameFor(model => model.Professor[0].fax)
-      </th>
-      <th>
-        @Html.DisplayNameFor(model => model.Professor[0].email)
-      </th>
       <th></th>
+      <th>
+        @Html.DisplayNameFor(model => model.professors[0].fullName)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.professors[0].email)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.professors[0].phone)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.professors[0].fax)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.professors[0].office)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.professors[0].time)
+      </th>
     </tr>
   </thead>
   <tbody>
-    @foreach (var item in Model.Professor)
+    @foreach (var item in Model.professors)
     {
       <tr>
+        <td></td>
         <td>
-          @Html.DisplayFor(modelItem => item.oAuthId)
+          <a asp-page="/Professors/Details" asp-route-id="@item.professorId">@Html.DisplayFor(modelItem => item.fullName)</a>
         </td>
         <td>
-          @Html.DisplayFor(modelItem => item.firstName)
-        </td>
-        <td>
-          @Html.DisplayFor(modelItem => item.lastName)
-        </td>
-        <td>
-          @Html.DisplayFor(modelItem => item.place)
-        </td>
-        <td>
-          @Html.DisplayFor(modelItem => item.time)
+          @Html.DisplayFor(modelItem => item.email)
         </td>
         <td>
           @Html.DisplayFor(modelItem => item.phone)
@@ -66,14 +49,33 @@
           @Html.DisplayFor(modelItem => item.fax)
         </td>
         <td>
-          @Html.DisplayFor(modelItem => item.email)
+          @Html.DisplayFor(modelItem => item.office)
         </td>
         <td>
-          <a asp-page="./Edit" asp-route-id="@item.professorId">Edit</a> |
-          <a asp-page="./Details" asp-route-id="@item.professorId">Details</a> |
-          <a asp-page="./Delete" asp-route-id="@item.professorId">Delete</a>
+          @Html.DisplayFor(modelItem => item.time)
         </td>
       </tr>
     }
   </tbody>
 </table>
+
+@section Scripts {
+  <script>
+    $(function () {
+      $('#professors').DataTable({
+        columnDefs: [{
+          className: 'control',
+          orderable: false,
+          targets: 0
+        }],
+        order: [1, 'asc'],
+        paging: false,
+        responsive: {
+          details: {
+            type: 'column'
+          }
+        }
+      });
+    });
+  </script>
+}
