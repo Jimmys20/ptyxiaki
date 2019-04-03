@@ -1,0 +1,34 @@
+﻿@page
+@model ptyxiaki.Pages.Administration.Categories.DeleteModel
+
+@{
+  ViewData["Title"] = "Διαγραφή";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h3>Είστε βέβαιοι ότι θέλετε να διαγραφεί αυτή η κατηγορία;</h3>
+<div>
+  <h4>Κατηγορία</h4>
+  <hr />
+  <dl class="row">
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.category.title)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.category.title)
+    </dd>
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.category.description)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.category.description)
+    </dd>
+  </dl>
+
+  <form method="post">
+    <input type="hidden" asp-for="category.categoryId" />
+    <input type="submit" value="Διαγραφή" class="btn btn-danger" /> |
+    <a asp-page="./Index">Πίσω στις κατηγορίες</a>
+  </form>
+</div>
