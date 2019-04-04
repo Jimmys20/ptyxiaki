@@ -17,7 +17,7 @@ namespace ptyxiaki.Models
     [Display(Name = "Πατρώνυμο")]
     public string fatherName { get; set; }
     [Display(Name = "Αριθμός μητρώου")]
-    public int registrationNumber { get; set; }
+    public string registrationNumber { get; set; }
     [Display(Name = "Εξάμηνο")]
     public int semester { get; set; }
     [Display(Name = "Γενικός μέσος όρος")]
@@ -49,7 +49,7 @@ namespace ptyxiaki.Models
     [Name("ΠΑΤΡΩΝΥΜΟ")]
     public string fatherName { get; set; }
     [Name("Α.Μ.")]
-    public int registrationNumber { get; set; }
+    public string registrationNumber { get; set; }
     [Name("ΕΞΑΜΗΝΟ")]
     public int semester { get; set; }
     [Name("ΒΑΘΜΟΣ")]
