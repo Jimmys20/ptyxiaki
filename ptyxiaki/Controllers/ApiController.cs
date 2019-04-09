@@ -64,7 +64,7 @@ namespace ptyxiaki.Controllers
       if (parameters.search != null && !string.IsNullOrEmpty(parameters.search.value))
         data = data.Where(s => s.lastName.ToUpper().Contains(parameters.search.value.ToUpper()) ||
                                s.firstName.ToUpper().Contains(parameters.search.value.ToUpper()) ||
-                               s.registrationNumber.ToString().Contains(parameters.search.value));
+                               s.registrationNumber.Contains(parameters.search.value));
 
       var recordsFiltered = data.Count();
 

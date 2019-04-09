@@ -67,14 +67,19 @@
           className: 'control',
           orderable: false,
           targets: 0
+        }, {
+          orderable: false,
+          targets: '_all'
         }],
+        info: false,
         order: [1, 'asc'],
         paging: false,
         responsive: {
           details: {
             type: 'column'
           }
-        }
+        },
+        searching: false
       });
     });
   </script>
