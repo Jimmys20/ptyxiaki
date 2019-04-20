@@ -9,6 +9,7 @@ var libraries = [
   'node_modules/datatables.net-responsive/**/*',
   'node_modules/datatables.net-responsive-bs4/**/*',
   'node_modules/jquery/**/*',
+  'node_modules/jquery-datetimepicker/**/*',
   'node_modules/jquery-validation/**/*',
   'node_modules/jquery-validation-unobtrusive/**/*',
   'node_modules/select2/**/*'

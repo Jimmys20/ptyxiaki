@@ -5,3 +5,5 @@
   stateDuration: -1,
   stateSave: true
 });
+
+$.datetimepicker.setLocale('el');
