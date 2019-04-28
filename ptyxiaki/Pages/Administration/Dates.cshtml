@@ -1,0 +1,92 @@
+﻿@page
+@model ptyxiaki.Pages.Administration.DatesModel
+
+@{
+  ViewData["Title"] = "Επεξεργασία";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h4>Ημερομηνίες</h4>
+<hr />
+<div class="row">
+  <div class="col-md-4">
+    <form method="post">
+      <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+      <input type="hidden" asp-for="date.dateId" />
+      <div class="form-group">
+        <label asp-for="date.postStart" class="control-label"></label>
+        <input asp-for="date.postStart" class="form-control" autocomplete="off" />
+        <span asp-validation-for="date.postStart" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="date.postEnd" class="control-label"></label>
+        <input asp-for="date.postEnd" class="form-control" autocomplete="off" />
+        <span asp-validation-for="date.postEnd" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="date.declarationStart" class="control-label"></label>
+        <input asp-for="date.declarationStart" class="form-control" autocomplete="off" />
+        <span asp-validation-for="date.declarationStart" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="date.declarationEnd" class="control-label"></label>
+        <input asp-for="date.declarationEnd" class="form-control" autocomplete="off" />
+        <span asp-validation-for="date.declarationEnd" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <input type="submit" value="Αποθήκευση" class="btn btn-primary" />
+      </div>
+    </form>
+  </div>
+</div>
+
+@section Scripts {
+  <script>
+    $(function () {
+      $('#date_postStart').datetimepicker({
+        dayOfWeekStart: 1,
+        format: 'j/n/Y G:i',
+        formatDate: 'j/n/Y',
+        onShow: function (ct) {
+          this.setOptions({
+            maxDate: $('#date_postEnd').val() ? $('#date_postEnd').val() : false
+          });
+        }
+      });
+
+      $('#date_postEnd').datetimepicker({
+        dayOfWeekStart: 1,
+        format: 'j/n/Y G:i',
+        formatDate: 'j/n/Y',
+        onShow: function (ct) {
+          this.setOptions({
+            minDate: $('#date_postStart').val() ? $('#date_postStart').val() : false
+          });
+        }
+      });
+
+      $('#date_declarationStart').datetimepicker({
+        dayOfWeekStart: 1,
+        format: 'j/n/Y G:i',
+        formatDate: 'j/n/Y',
+        onShow: function (ct) {
+          this.setOptions({
+            maxDate: $('#date_declarationEnd').val() ? $('#date_declarationEnd').val() : false
+          });
+        }
+      });
+
+      $('#date_declarationEnd').datetimepicker({
+        dayOfWeekStart: 1,
+        format: 'j/n/Y G:i',
+        formatDate: 'j/n/Y',
+        onShow: function (ct) {
+          this.setOptions({
+            minDate: $('#date_declarationStart').val() ? $('#date_declarationStart').val() : false
+          });
+        }
+      });
+    });
+  </script>
+}
