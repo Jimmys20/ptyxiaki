@@ -26,13 +26,13 @@
     @foreach (var item in Model.categories)
     {
       <tr>
-        <td>
+        <td class="text-nowrap">
           @Html.DisplayFor(modelItem => item.title)
         </td>
         <td>
           @Html.DisplayFor(modelItem => item.description)
         </td>
-        <td>
+        <td class="text-nowrap">
           <a asp-page="./Edit" asp-route-id="@item.categoryId">Επεξεργασία</a> |
           <a asp-page="./Delete" asp-route-id="@item.categoryId">Διαγραφή</a>
         </td>
