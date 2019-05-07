@@ -15,6 +15,12 @@
         @Html.DisplayNameFor(model => model.students[0].fullName)
       </th>
       <th>
+        @Html.DisplayNameFor(model => model.students[0].lastName)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.students[0].firstName)
+      </th>
+      <th>
         @Html.DisplayNameFor(model => model.students[0].fatherName)
       </th>
       <th>
@@ -54,9 +60,16 @@
           orderable: false
         }, {
           data: 'fullName',
+          orderData: [2, 3],
           render: function (data, type, row, meta) {
             return `<a href="/Students/Details?id=${row.studentId}">${data}</a>`;
           }
+        }, {
+          data: 'lastName',
+          visible: false
+        }, {
+          data: 'firstName',
+          visible: false
         }, {
           data: 'fatherName',
           visible: false
@@ -64,6 +77,7 @@
           data: 'registrationNumber'
         }, {
           data: 'email',
+          orderData: 5,
           render: function (data, type, row, meta) {
             return `<a href="mailto:${data}">${data}</a>`;
           }
@@ -77,7 +91,6 @@
           data: 'progressFactor'
         }],
         order: [1, 'asc'],
-        orderMulti: false,
         responsive: {
           details: {
             type: 'column'
