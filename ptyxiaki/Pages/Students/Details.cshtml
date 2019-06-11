@@ -70,7 +70,7 @@
     </dt>
     <dd class="col-sm-10">
       <ul class="list-unstyled mb-0">
-        @foreach (var thesis in Model.student.assignments.Select(a => a.thesis).OrderBy(t => t.assignedAt).ToList())
+        @foreach (var thesis in Model.student.assignments.Select(a => a.thesis).OrderBy(t => t.assignedAt))
         {
           <li>
             <span>@Html.DisplayFor(model => thesis.status) -> </span>

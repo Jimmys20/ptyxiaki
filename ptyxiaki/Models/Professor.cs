@@ -26,6 +26,7 @@ namespace ptyxiaki.Models
     public string phone { get; set; }
     [Display(Name = "Fax")]
     public string fax { get; set; }
+    [EmailAddress]
     [DataType(DataType.EmailAddress)]
     [Display(Name = "Email")]
     public string email { get; set; }
