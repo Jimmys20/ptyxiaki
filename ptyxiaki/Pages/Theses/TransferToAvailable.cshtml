@@ -1,0 +1,130 @@
+﻿@page
+@model ptyxiaki.Pages.Theses.TransferToAvailableModel
+
+@{
+  ViewData["Title"] = "Μεταφορά";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h3>Είστε βέβαιοι ότι θέλετε να μεταφερθεί αυτή η πτυχιακή στις διαθέσιμες;</h3>
+<div>
+  <h4>Πτυχιακή</h4>
+  <hr />
+  <dl class="row">
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.thesis.title)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.thesis.title)
+    </dd>
+    @*<dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Thesis.englishTitle)
+      </dt>
+      <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Thesis.englishTitle)
+      </dd>
+      <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Thesis.description)
+      </dt>
+      <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Thesis.description)
+      </dd>
+      <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Thesis.bibliography)
+      </dt>
+      <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Thesis.bibliography)
+      </dd>
+      <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Thesis.sources)
+      </dt>
+      <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Thesis.sources)
+      </dd>
+      <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Thesis.tools)
+      </dt>
+      <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Thesis.tools)
+      </dd>
+      <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Thesis.restrictions)
+      </dt>
+      <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Thesis.restrictions)
+      </dd>
+      <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Thesis.assignmentMethod)
+      </dt>
+      <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Thesis.assignmentMethod)
+      </dd>
+      <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Thesis.assignmentType)
+      </dt>
+      <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Thesis.assignmentType)
+      </dd>
+      <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Thesis.status)
+      </dt>
+      <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Thesis.status)
+      </dd>
+      <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Thesis.semester)
+      </dt>
+      <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Thesis.semester.title)
+      </dd>
+      <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Thesis.professor)
+      </dt>
+      <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Thesis.professor.professorId)
+      </dd>
+      <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Thesis.createdAt)
+      </dt>
+      <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Thesis.createdAt)
+      </dd>
+      <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Thesis.canceledAt)
+      </dt>
+      <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Thesis.canceledAt)
+      </dd>
+      <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Thesis.assignedAt)
+      </dt>
+      <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Thesis.assignedAt)
+      </dd>
+      <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Thesis.completedAt)
+      </dt>
+      <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Thesis.completedAt)
+      </dd>
+      <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Thesis.cancelReason)
+      </dt>
+      <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Thesis.cancelReason)
+      </dd>
+      <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Thesis.inactiveCount)
+      </dt>
+      <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Thesis.inactiveCount)
+      </dd>*@
+  </dl>
+
+  <form method="post">
+    <input type="hidden" asp-for="thesis.thesisId" />
+    <input type="submit" value="Μεταφορά" class="btn btn-primary" /> |
+    <a asp-page="./Index">Back to List</a>
+  </form>
+</div>
