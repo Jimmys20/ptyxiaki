@@ -1,13 +1,13 @@
 ﻿@page
-@model ptyxiaki.Pages.Theses.TransferToAvailableModel
+@model ptyxiaki.Pages.Theses.DeleteModel
 
 @{
-  ViewData["Title"] = "Μεταφορά";
+  ViewData["Title"] = "Διαγραφή";
 }
 
 <h1>@ViewData["Title"]</h1>
 
-<h3>Είστε βέβαιοι ότι θέλετε να μεταφερθεί αυτή η πτυχιακή στις διαθέσιμες;</h3>
+<h3>Είστε βέβαιοι ότι θέλετε να διαγραφεί αυτή η πτυχιακή;</h3>
 <div>
   <h4>Πτυχιακή</h4>
   <hr />
@@ -46,7 +46,7 @@
 
   <form method="post">
     <input type="hidden" asp-for="thesis.thesisId" />
-    <input type="submit" value="Μεταφορά" class="btn btn-primary" /> |
+    <input type="submit" value="Διαγραφή" class="btn btn-danger" /> |
     <a asp-page="./Index">Πτυχιακές</a>
   </form>
 </div>

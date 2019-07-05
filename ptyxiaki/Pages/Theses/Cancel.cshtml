@@ -19,54 +19,17 @@
       @Html.DisplayFor(model => model.thesis.title)
     </dd>
     <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.thesis.description)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.thesis.description)
+    </dd>
+    <dt class="col-sm-2">
       @Html.DisplayNameFor(model => model.thesis.semester)
     </dt>
     <dd class="col-sm-10">
       @Html.DisplayFor(model => model.thesis.semester.title)
     </dd>
-    @*<dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.thesis.englishTitle)
-      </dt>
-      <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.thesis.englishTitle)
-      </dd>
-      <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.thesis.description)
-      </dt>
-      <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.thesis.description)
-      </dd>
-      <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.thesis.bibliography)
-      </dt>
-      <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.thesis.bibliography)
-      </dd>
-      <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.thesis.sources)
-      </dt>
-      <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.thesis.sources)
-      </dd>
-      <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.thesis.tools)
-      </dt>
-      <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.thesis.tools)
-      </dd>
-      <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.thesis.restrictions)
-      </dt>
-      <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.thesis.restrictions)
-      </dd>*@
-
-    @*<dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.thesis.status)
-      </dt>
-      <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.thesis.status)
-      </dd>*@
     <dt class="col-sm-2">
       @Html.DisplayNameFor(model => model.thesis.createdAt)
     </dt>
@@ -104,18 +67,6 @@
         }
       </ul>
     </dd>
-    @*<dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.thesis.finishedAt)
-      </dt>
-      <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.thesis.finishedAt)
-      </dd>
-      <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.thesis.professor)
-      </dt>
-      <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.thesis.professor.professorId)
-      </dd>*@
   </dl>
 
   <div class="row">
@@ -127,7 +78,7 @@
           <input asp-for="cancelReason" class="form-control" />
           <span asp-validation-for="cancelReason" class="text-danger"></span>
         </div>
-        <input type="submit" value="Ακύρωση" class="btn btn-danger" /> |
+        <input type="submit" value="Ακύρωση" class="btn btn-warning" /> |
         <a asp-page="./Index">Πτυχιακές</a>
       </form>
     </div>

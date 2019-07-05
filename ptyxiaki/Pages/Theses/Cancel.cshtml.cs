@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -31,6 +31,7 @@ namespace ptyxiaki.Pages.Theses
     public Thesis thesis { get; set; }
     [BindProperty]
     [Required]
+    [Display(Name = "Λόγος ακύρωσης")]
     public string cancelReason { get; set; }
 
     public async Task<IActionResult> OnGetAsync(int? id)
