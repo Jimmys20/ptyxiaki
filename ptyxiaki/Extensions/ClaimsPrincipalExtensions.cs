@@ -9,21 +9,16 @@ namespace ptyxiaki.Extensions
 {
   public static class ClaimsPrincipalExtensions
   {
-    public static int? GetUserId(this ClaimsPrincipal claimsPrincipal)
+    public static int? getUserId(this ClaimsPrincipal claimsPrincipal)
     {
       var id = claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
 
-      if (!int.TryParse(id, out int retVal))
+      if (int.TryParse(id, out int retVal))
       {
-        return null;
+        return retVal;
       }
 
-      return retVal;
-    }
-
-    public static bool HasRole(this ClaimsPrincipal claimsPrincipal, string role)
-    {
-      return claimsPrincipal.HasClaim(ClaimTypes.Role, role);
+      return null;
     }
   }
 }

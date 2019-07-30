@@ -34,6 +34,7 @@ namespace ptyxiaki.Models
 
     [Display(Name = "Ονοματεπώνυμο")]
     public string fullName => $"{lastName} {firstName}";
+    public string registrationNumberAndFullName => $"{registrationNumber} - {fullName}";
     [DataType(DataType.EmailAddress)]
     [Display(Name = "Email")]
     public string email => $"it{registrationNumber}@it.teithe.gr";

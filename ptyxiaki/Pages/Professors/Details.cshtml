@@ -57,7 +57,7 @@
 </div>
 <div>
   <a asp-page="./Index">Καθηγητές</a>
-  @if (Model.professor.professorId == User.getUserId())
+  @if (User.IsInRole(Globals.PROFESSOR_ROLE) && User.getUserId() == Model.professor.professorId)
   {
     <text>| <a asp-page="./Edit">Επεξεργασία</a></text>
   }
