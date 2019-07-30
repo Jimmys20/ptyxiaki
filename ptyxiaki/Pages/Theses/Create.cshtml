@@ -1,0 +1,93 @@
+﻿@page
+@model ptyxiaki.Pages.Theses.CreateModel
+
+@{
+  ViewData["Title"] = "Δημιουργία";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h4>Πτυχιακή</h4>
+<hr />
+<div class="row">
+  <div class="col-md-4">
+    <form method="post">
+      <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+      <div class="form-group">
+        <label asp-for="thesisVm.title" class="control-label"></label><span class="text-muted"> (Υποχρεωτικό)</span>
+        <input asp-for="thesisVm.title" class="form-control" />
+        <span asp-validation-for="thesisVm.title" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="thesisVm.englishTitle" class="control-label"></label><span class="text-muted"> (Υποχρεωτικό)</span>
+        <input asp-for="thesisVm.englishTitle" class="form-control" />
+        <span asp-validation-for="thesisVm.englishTitle" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="thesisVm.categorizations" class="control-label"></label><span class="text-muted"> (Τουλάχιστον 1)</span>
+        <select id="categories" asp-for="thesisVm.categorizations" class="form-control" asp-items="ViewBag.categories"></select>
+        <span asp-validation-for="thesisVm.categorizations" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="thesisVm.requirements" class="control-label"></label><span class="text-muted"> (2 έως 4)</span>
+        <select id="courses" asp-for="thesisVm.requirements" class="form-control" asp-items="ViewBag.courses"></select>
+        <span asp-validation-for="thesisVm.requirements" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="thesisVm.description" class="control-label"></label><span class="text-muted"> (Υποχρεωτικό)</span>
+        <textarea asp-for="thesisVm.description" class="form-control" rows="5"></textarea>
+        <span asp-validation-for="thesisVm.description" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="thesisVm.bibliography" class="control-label"></label>
+        <textarea asp-for="thesisVm.bibliography" class="form-control"></textarea>
+        <span asp-validation-for="thesisVm.bibliography" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="thesisVm.sources" class="control-label"></label>
+        <textarea asp-for="thesisVm.sources" class="form-control"></textarea>
+        <span asp-validation-for="thesisVm.sources" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="thesisVm.tools" class="control-label"></label>
+        <textarea asp-for="thesisVm.tools" class="form-control"></textarea>
+        <span asp-validation-for="thesisVm.tools" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="thesisVm.restrictions" class="control-label"></label>
+        <textarea asp-for="thesisVm.restrictions" class="form-control"></textarea>
+        <span asp-validation-for="thesisVm.restrictions" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="thesisVm.assignmentType" class="control-label"></label>
+        <select asp-for="thesisVm.assignmentType" class="form-control" asp-items="Html.GetEnumSelectList<AssignmentType>()"></select>
+        <span asp-validation-for="thesisVm.assignmentType" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="thesisVm.assignmentMethod" class="control-label"></label>
+        <select asp-for="thesisVm.assignmentMethod" class="form-control" asp-items="Html.GetEnumSelectList<AssignmentMethod>()"></select>
+        <span asp-validation-for="thesisVm.assignmentMethod" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="thesisVm.assignments" class="control-label"></label>
+        <select id="students" asp-for="thesisVm.assignments" class="form-control" asp-items="ViewBag.students"></select>
+        <span asp-validation-for="thesisVm.assignments" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <input type="submit" value="Δημιουργία" class="btn btn-primary" />
+      </div>
+    </form>
+  </div>
+</div>
+
+<div>
+  <a asp-page="./Index">Πτυχιακές</a>
+</div>
+
+@section Scripts {
+  <script>
+    $(function () {
+      $("#courses, #categories, #students").select2();
+    });
+  </script>
+}
