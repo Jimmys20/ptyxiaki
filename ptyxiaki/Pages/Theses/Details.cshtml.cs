@@ -2,40 +2,65 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch.Operations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using ptyxiaki.Common;
 using ptyxiaki.Data;
+using ptyxiaki.Extensions;
 using ptyxiaki.Models;
+using ptyxiaki.Services;
 
 namespace ptyxiaki.Pages.Theses
 {
-    public class DetailsModel : PageModel
+  public class DetailsModel : PageModel
+  {
+    private readonly DepartmentContext context;
+    private readonly IAuthorizationService authorizationService;
+
+    public DetailsModel(DepartmentContext context, IAuthorizationService authorizationService)
     {
-        private readonly ptyxiaki.Data.DepartmentContext _context;
-
-        public DetailsModel(ptyxiaki.Data.DepartmentContext context)
-        {
-            _context = context;
-        }
-
-        public Thesis Thesis { get; set; }
-
-        public async Task<IActionResult> OnGetAsync(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            Thesis = await _context.theses
-                .Include(t => t.professor).FirstOrDefaultAsync(m => m.thesisId == id);
-
-            if (Thesis == null)
-            {
-                return NotFound();
-            }
-            return Page();
-        }
+      this.context = context;
+      this.authorizationService = authorizationService;
     }
+
+    public Thesis thesis { get; set; }
+
+    public async Task<IActionResult> OnGetAsync(int? id)
+    {
+      if (id == null)
+      {
+        return NotFound();
+      }
+
+      thesis = await context.theses
+        .Include(t => t.professor)
+        .Include(t => t.semester)
+        .Include(t => t.assignments).ThenInclude(a => a.student)
+        .Include(t => t.categorizations).ThenInclude(c => c.category)
+        .Include(t => t.requirements).ThenInclude(r => r.course)
+        .FirstOrDefaultAsync(t => t.thesisId == id);
+
+      if (thesis == null)
+      {
+        return NotFound();
+      }
+
+      var authorizationResult = await authorizationService.AuthorizeAsync(User, thesis, Operations.Details);
+
+      if (!authorizationResult.Succeeded)
+      {
+        if (User.Identity.IsAuthenticated)
+        {
+          return Forbid();
+        }
+
+        return Challenge();
+      }
+
+      return Page();
+    }
+  }
 }

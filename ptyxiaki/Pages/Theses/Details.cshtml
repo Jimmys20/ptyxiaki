@@ -2,36 +2,171 @@
 @model ptyxiaki.Pages.Theses.DetailsModel
 
 @{
-    ViewData["Title"] = "Details";
+  ViewData["Title"] = "Λεπτομέρειες";
 }
 
-<h2>Details</h2>
+<h1>@ViewData["Title"]</h1>
 
 <div>
-    <h4>Thesis</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Thesis.title)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Thesis.title)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Thesis.description)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Thesis.description)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Thesis.professor)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Thesis.professor.professorId)
-        </dd>
-    </dl>
+  <h4>Πτυχιακή</h4>
+  <hr />
+  <dl class="row">
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.thesis.title)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.thesis.title)&nbsp;
+    </dd>
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.thesis.englishTitle)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.thesis.englishTitle)&nbsp;
+    </dd>
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.thesis.professor)
+    </dt>
+    <dd class="col-sm-10">
+      <a asp-page="/Professors/Details" asp-route-id="@Model.thesis.professorId">@Html.DisplayFor(model => model.thesis.professor.fullName)</a>&nbsp;
+    </dd>
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.thesis.status)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.thesis.status)&nbsp;
+    </dd>
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.thesis.semester)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.thesis.semester.title)&nbsp;
+    </dd>
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.thesis.createdAt)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.thesis.createdAt)&nbsp;
+    </dd>
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.thesis.assignmentMethod)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.thesis.assignmentMethod)&nbsp;
+    </dd>
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.thesis.assignmentType)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.thesis.assignmentType)&nbsp;
+    </dd>
+    @if (Model.thesis.status >= Status.Active)
+    {
+      <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.thesis.assignedAt)
+      </dt>
+      <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.thesis.assignedAt)&nbsp;
+      </dd>
+      <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.thesis.assignments)
+      </dt>
+      <dd class="col-sm-10">
+        <ul class="list-unstyled mb-0">
+          @foreach (var student in Model.thesis.assignments.Select(a => a.student))
+          {
+            <li><a asp-page="/Students/Details" asp-route-id="@student.studentId">@Html.DisplayFor(model => student.fullName)</a></li>
+          }
+        </ul>
+      </dd>
+    }
+    @if (Model.thesis.status == Status.Canceled)
+    {
+      <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.thesis.canceledAt)
+      </dt>
+      <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.thesis.canceledAt)&nbsp;
+      </dd>
+    }
+    @if (Model.thesis.status == Status.Completed)
+    {
+      <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.thesis.completedAt)
+      </dt>
+      <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.thesis.completedAt)&nbsp;
+      </dd>
+    }
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.thesis.categorizations)
+    </dt>
+    <dd class="col-sm-10">
+      <ul class="list-unstyled mb-0">
+        @foreach (var category in Model.thesis.categorizations.Select(c => c.category))
+        {
+          <li>@Html.DisplayFor(model => category.title)</li>
+        }
+      </ul>
+    </dd>
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.thesis.requirements)
+    </dt>
+    <dd class="col-sm-10">
+      <ul class="list-unstyled mb-0">
+        @foreach (var course in Model.thesis.requirements.Select(r => r.course))
+        {
+          <li>@Html.DisplayFor(model => course.title)</li>
+        }
+      </ul>
+    </dd>
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.thesis.description)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.thesis.description)&nbsp;
+    </dd>
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.thesis.bibliography)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.thesis.bibliography)&nbsp;
+    </dd>
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.thesis.sources)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.thesis.sources)&nbsp;
+    </dd>
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.thesis.tools)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.thesis.tools)&nbsp;
+    </dd>
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.thesis.restrictions)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.thesis.restrictions)&nbsp;
+    </dd>
+  </dl>
 </div>
 <div>
-    <a asp-page="./Edit" asp-route-id="@Model.Thesis.thesisId">Edit</a> |
-    <a asp-page="./Index">Back to List</a>
+  @if ((await AuthorizationService.AuthorizeAsync(User, Model.thesis, Operations.Edit)).Succeeded)
+  {
+    <text><a asp-page="./Edit" asp-route-id="@Model.thesis.thesisId">Επεξεργασία</a> |</text>
+  }
+  <a asp-page="./Index">Πτυχιακές</a>
+  @if ((await AuthorizationService.AuthorizeAsync(User, Model.thesis, Operations.Declare)).Succeeded)
+  {
+    @*<text>
+        <form asp-page="/Declarations" asp-page-handler="Add">
+          <input type="hidden" name="thesisId" value="@Model.thesis.thesisId" />
+
+          <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-primary" />
+          </div>
+        </form>
+      </text>*@
+  }
 </div>
