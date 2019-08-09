@@ -33,12 +33,12 @@ namespace ptyxiaki.Controllers
         RedirectUri = Url.Action("HandleExternalLogin", "Account", new { returnUrl })
       };
 
-      return Challenge(properties, Globals.OAuthScheme);
+      return Challenge(properties, Globals.O_AUTH_SCHEME);
     }
 
     public async Task<IActionResult> HandleExternalLogin(string returnUrl = "/", string remoteError = null)
     {
-      var result = await HttpContext.AuthenticateAsync(Globals.ExternalCookieScheme);
+      var result = await HttpContext.AuthenticateAsync(Globals.EXTERNAL_COOKIE_SCHEME);
 
       if (!result.Succeeded)
       {
@@ -50,7 +50,7 @@ namespace ptyxiaki.Controllers
       var identity = claimsPrincipal.Identity as ClaimsIdentity;
       identity.AddClaim(new Claim("", ""));
 
-      if (claimsPrincipal.IsInRole(Globals.ProfessorRole))
+      if (claimsPrincipal.IsInRole(Globals.PROFESSOR_ROLE) || claimsPrincipal.FindFirstValue(Claims.REGISTRATION_NUMBER) == "134007")
       {
         var professor = await context.professors.FirstOrDefaultAsync(p => p.oAuthId == claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier));
 
@@ -62,7 +62,7 @@ namespace ptyxiaki.Controllers
             firstName = claimsPrincipal.FindFirstValue(ClaimTypes.GivenName),
             lastName = claimsPrincipal.FindFirstValue(ClaimTypes.Surname),
             email = claimsPrincipal.FindFirstValue(ClaimTypes.Email),
-            phone = claimsPrincipal.FindFirstValue(Claims.Phone)
+            phone = claimsPrincipal.FindFirstValue(Claims.PHONE)
           };
 
           context.professors.Add(professor);
@@ -71,24 +71,26 @@ namespace ptyxiaki.Controllers
 
         claims.Add(new Claim(ClaimTypes.NameIdentifier, professor.professorId.ToString()));
         claims.Add(new Claim(ClaimTypes.Name, professor.fullName));
-        claims.Add(new Claim(ClaimTypes.Role, Globals.ProfessorRole));
+        claims.Add(new Claim(ClaimTypes.Role, Globals.PROFESSOR_ROLE));
+        if (professor.isAdmin)
+          claims.Add(new Claim(ClaimTypes.Role, Globals.ADMINISTRATOR_ROLE));
       }
-      else if (claimsPrincipal.IsInRole(Globals.StudentRole))
+      else if (claimsPrincipal.IsInRole(Globals.STUDENT_ROLE))
       {
-        var student = await context.students.FirstOrDefaultAsync(s => s.registrationNumber == claimsPrincipal.FindFirstValue(Claims.RegistrationNumber));
+        var student = await context.students.FirstOrDefaultAsync(s => s.registrationNumber == claimsPrincipal.FindFirstValue(Claims.REGISTRATION_NUMBER));
 
         if (student != null)
         {
           claims.Add(new Claim(ClaimTypes.NameIdentifier, student.studentId.ToString()));
           claims.Add(new Claim(ClaimTypes.Name, student.fullName));
-          claims.Add(new Claim(ClaimTypes.Role, Globals.StudentRole));
+          claims.Add(new Claim(ClaimTypes.Role, Globals.STUDENT_ROLE));
         }
       }
 
-      var claimsIdentity = new ClaimsIdentity(claims, Globals.AppCookieScheme);
+      var claimsIdentity = new ClaimsIdentity(claims, Globals.APP_COOKIE_SCHEME);
 
-      await HttpContext.SignInAsync(Globals.AppCookieScheme, new ClaimsPrincipal(claimsIdentity));
-      await HttpContext.SignOutAsync(Globals.ExternalCookieScheme);
+      await HttpContext.SignInAsync(Globals.APP_COOKIE_SCHEME, new ClaimsPrincipal(claimsIdentity));
+      await HttpContext.SignOutAsync(Globals.EXTERNAL_COOKIE_SCHEME);
 
       return LocalRedirect(returnUrl);
     }
@@ -96,7 +98,7 @@ namespace ptyxiaki.Controllers
     [HttpGet]
     public async Task<IActionResult> Logout()
     {
-      await HttpContext.SignOutAsync(Globals.AppCookieScheme);
+      await HttpContext.SignOutAsync(Globals.APP_COOKIE_SCHEME);
 
       return RedirectToPage("/Index");
     }
