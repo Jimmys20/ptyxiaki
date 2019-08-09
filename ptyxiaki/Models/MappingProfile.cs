@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.EquivalencyExpression;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,8 @@ namespace ptyxiaki.Models
     public MappingProfile()
     {
       CreateMap<Professor, ProfessorVm>().ReverseMap();
-      CreateMap<Thesis, ThesisVm>().ReverseMap();
+      CreateMap<Thesis, ThesisVmProfessor>().ReverseMap();
+      CreateMap<Thesis, ThesisVmAdministrator>().ReverseMap();
       CreateMap<Student, StudentVm>().ReverseMap();
 
       CreateMap<Categorization, int>().ConvertUsing(o => o.categoryId);
@@ -20,6 +22,8 @@ namespace ptyxiaki.Models
       CreateMap<int, Requirement>().ConvertUsing(o => new Requirement { courseId = o });
       CreateMap<Assignment, int>().ConvertUsing(o => o.studentId);
       CreateMap<int, Assignment>().ConvertUsing(o => new Assignment { studentId = o });
+
+      CreateMap<DeclarationVm, Declaration>().EqualityComparison((dVm, d) => dVm.declarationId == d.declarationId);
     }
   }
 }
