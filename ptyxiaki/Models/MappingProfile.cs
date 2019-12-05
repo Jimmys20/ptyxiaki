@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using AutoMapper.EquivalencyExpression;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,8 +21,6 @@ namespace ptyxiaki.Models
       CreateMap<int, Requirement>().ConvertUsing(o => new Requirement { courseId = o });
       CreateMap<Assignment, int>().ConvertUsing(o => o.studentId);
       CreateMap<int, Assignment>().ConvertUsing(o => new Assignment { studentId = o });
-
-      CreateMap<DeclarationVm, Declaration>().EqualityComparison((dVm, d) => dVm.declarationId == d.declarationId);
     }
   }
 }

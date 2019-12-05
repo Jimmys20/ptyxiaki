@@ -22,7 +22,6 @@ namespace ptyxiaki.Data
 
     public DbSet<Student> students { get; set; }
     public DbSet<Assignment> assignments { get; set; }
-    public DbSet<Declaration> declarations { get; set; }
 
     public DbSet<Professor> professors { get; set; }
 
