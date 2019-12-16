@@ -18,16 +18,13 @@
         @Html.DisplayNameFor(model => model.professors[0].email)
       </th>
       <th>
+        @Html.DisplayNameFor(model => model.professors[0].website)
+      </th>
+      <th>
         @Html.DisplayNameFor(model => model.professors[0].phone)
       </th>
       <th>
-        @Html.DisplayNameFor(model => model.professors[0].fax)
-      </th>
-      <th>
         @Html.DisplayNameFor(model => model.professors[0].office)
-      </th>
-      <th>
-        @Html.DisplayNameFor(model => model.professors[0].time)
       </th>
     </tr>
   </thead>
@@ -43,16 +40,13 @@
           @Html.DisplayFor(modelItem => item.email)
         </td>
         <td>
+          @Html.DisplayFor(modelItem => item.website)
+        </td>
+        <td>
           @Html.DisplayFor(modelItem => item.phone)
         </td>
         <td>
-          @Html.DisplayFor(modelItem => item.fax)
-        </td>
-        <td>
           @Html.DisplayFor(modelItem => item.office)
-        </td>
-        <td>
-          @Html.DisplayFor(modelItem => item.time)
         </td>
       </tr>
     }
@@ -79,7 +73,7 @@
             type: 'column'
           }
         },
-        searching: false
+        searching: true
       });
     });
   </script>

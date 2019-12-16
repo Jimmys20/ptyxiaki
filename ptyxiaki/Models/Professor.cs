@@ -30,6 +30,9 @@ namespace ptyxiaki.Models
     [DataType(DataType.EmailAddress)]
     [Display(Name = "Email")]
     public string email { get; set; }
+    [DataType(DataType.Url)]
+    [Display(Name = "Ιστοσελίδα")]
+    public string website { get; set; }
 
     public List<Thesis> theses { get; set; }
 
@@ -45,5 +48,6 @@ namespace ptyxiaki.Models
     public string phone { get; set; }
     public string fax { get; set; }
     public string email { get; set; }
+    public string website { get; set; }
   }
 }
