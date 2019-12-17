@@ -20,11 +20,15 @@ namespace ptyxiaki.Pages.Theses
   {
     private readonly DepartmentContext context;
     private readonly IAuthorizationService authorizationService;
+    private readonly IEmailService emailService;
 
-    public CancelModel(DepartmentContext context, IAuthorizationService authorizationService)
+    public CancelModel(DepartmentContext context,
+                       IAuthorizationService authorizationService,
+                       IEmailService emailService)
     {
       this.context = context;
       this.authorizationService = authorizationService;
+      this.emailService = emailService;
     }
 
     [BindProperty]
@@ -103,7 +107,9 @@ namespace ptyxiaki.Pages.Theses
         await context.SaveChangesAsync();
 
         var addresses = thesis.assignments.Select(a => new EmailAddress(a.student.fullName, a.student.email));
-        BackgroundJob.Enqueue<IEmailService>((e) => e.sendEmailAsync(addresses, "Cancel", "Cancel")); //TODO
+        var subject = "ptyxiaki - ακύρωση";
+        var text = $"Η διπλωματική εργασία «{thesis.title}» ακυρώθηκε από τον επιβλέποντα καθηγητή.";
+        emailService.sendEmail(addresses, subject, text);
       }
       catch (DbUpdateConcurrencyException)
       {
@@ -116,7 +122,7 @@ namespace ptyxiaki.Pages.Theses
           throw;
         }
       }
-      //TODO
+
       return RedirectToPage("./Index", new { status = Status.Canceled });
     }
 

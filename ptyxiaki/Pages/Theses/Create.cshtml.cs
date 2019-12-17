@@ -103,11 +103,11 @@ namespace ptyxiaki.Pages.Theses
         return Page();
       }
 
-      var semesterId = await context.semesters.getCurrentSemesterIdAsync();
+      var semester = await context.semesters.getCurrentSemesterAsync();
 
-      if (semesterId.HasValue)
+      if (semester != null)
       {
-        thesis.semesterId = semesterId.Value;
+        thesis.semesterId = semester.semesterId;
       }
       else
       {
@@ -128,7 +128,13 @@ namespace ptyxiaki.Pages.Theses
       context.theses.Add(thesis);
       await context.SaveChangesAsync();
 
-      //TODOemailService.sendEmailAsync();
+      if (thesis.assignments.Any())
+      {
+        var addresses = thesis.assignments.Select(a => new EmailAddress(a.student.fullName, a.student.email));
+        var subject = "ptyxiaki - ανάθεση";
+        var text = $"Σας ανατέθηκε η διπλωματική εργασία «{thesis.title}».";
+        emailService.sendEmail(addresses, subject, text);
+      }
 
       return RedirectToPage("./Index");
     }
