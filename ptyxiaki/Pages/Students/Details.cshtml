@@ -5,85 +5,149 @@
   ViewData["Title"] = "Λεπτομέρειες";
 }
 
-<h1>@ViewData["Title"]</h1>
+<ul class="nav nav-tabs" style="margin-bottom: 1rem;">
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#details-content">@ViewData["Title"]</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#grades-content">Βαθμολογίες</a>
+  </li>
+</ul>
 
-<div>
-  <h4>Φοιτητής</h4>
-  <hr />
-  <dl class="row">
-    <dt class="col-sm-2">
-      @Html.DisplayNameFor(model => model.student.lastName)
-    </dt>
-    <dd class="col-sm-10">
-      @Html.DisplayFor(model => model.student.lastName)
-    </dd>
-    <dt class="col-sm-2">
-      @Html.DisplayNameFor(model => model.student.firstName)
-    </dt>
-    <dd class="col-sm-10">
-      @Html.DisplayFor(model => model.student.firstName)
-    </dd>
-    <dt class="col-sm-2">
-      @Html.DisplayNameFor(model => model.student.fatherName)
-    </dt>
-    <dd class="col-sm-10">
-      @Html.DisplayFor(model => model.student.fatherName)
-    </dd>
-    <dt class="col-sm-2">
-      @Html.DisplayNameFor(model => model.student.registrationNumber)
-    </dt>
-    <dd class="col-sm-10">
-      @Html.DisplayFor(model => model.student.registrationNumber)
-    </dd>
-    <dt class="col-sm-2">
-      @Html.DisplayNameFor(model => model.student.email)
-    </dt>
-    <dd class="col-sm-10">
-      @Html.DisplayFor(model => model.student.email)
-    </dd>
-    <dt class="col-sm-2">
-      @Html.DisplayNameFor(model => model.student.semester)
-    </dt>
-    <dd class="col-sm-10">
-      @Html.DisplayFor(model => model.student.semester)
-    </dd>
-    <dt class="col-sm-2">
-      @Html.DisplayNameFor(model => model.student.average)
-    </dt>
-    <dd class="col-sm-10">
-      @Html.DisplayFor(model => model.student.average_)
-    </dd>
-    <dt class="col-sm-2">
-      @Html.DisplayNameFor(model => model.student.credits)
-    </dt>
-    <dd class="col-sm-10">
-      @Html.DisplayFor(model => model.student.credits)
-    </dd>
-    <dt class="col-sm-2">
-      @Html.DisplayNameFor(model => model.student.progressFactor)
-    </dt>
-    <dd class="col-sm-10">
-      @Html.DisplayFor(model => model.student.progressFactor)
-    </dd>
-    <dt class="col-sm-2">
-      @Html.DisplayNameFor(model => model.student.assignments)
-    </dt>
-    <dd class="col-sm-10">
-      <ul class="list-unstyled mb-0">
-        @foreach (var thesis in Model.student.assignments.Select(a => a.thesis).OrderBy(t => t.assignedAt))
-        {
-          <li>
-            <span>@Html.DisplayFor(model => thesis.status) -> </span>
-            <a asp-page="/Theses/Details" asp-route-id="@thesis.thesisId">@Html.DisplayFor(model => thesis.title)</a>
-          </li>
-        }
-      </ul>
-    </dd>
-  </dl>
-</div>
-@if (User.IsInRole(Globals.PROFESSOR_ROLE))
-{
-  <div>
-    <a asp-page="./Index">Φοιτητές</a>
+<div class="tab-content">
+  <div class="tab-pane fade show active" id="details-content">
+    <div>
+      <h4>Φοιτητής</h4>
+      <hr />
+      <dl class="row">
+        <dt class="col-sm-2">
+          @Html.DisplayNameFor(model => model.student.lastName)
+        </dt>
+        <dd class="col-sm-10">
+          @Html.DisplayFor(model => model.student.lastName)
+        </dd>
+        <dt class="col-sm-2">
+          @Html.DisplayNameFor(model => model.student.firstName)
+        </dt>
+        <dd class="col-sm-10">
+          @Html.DisplayFor(model => model.student.firstName)
+        </dd>
+        <dt class="col-sm-2">
+          @Html.DisplayNameFor(model => model.student.fatherName)
+        </dt>
+        <dd class="col-sm-10">
+          @Html.DisplayFor(model => model.student.fatherName)
+        </dd>
+        <dt class="col-sm-2">
+          @Html.DisplayNameFor(model => model.student.registrationNumber)
+        </dt>
+        <dd class="col-sm-10">
+          @Html.DisplayFor(model => model.student.registrationNumber)
+        </dd>
+        <dt class="col-sm-2">
+          @Html.DisplayNameFor(model => model.student.email)
+        </dt>
+        <dd class="col-sm-10">
+          @Html.DisplayFor(model => model.student.email)
+        </dd>
+        <dt class="col-sm-2">
+          @Html.DisplayNameFor(model => model.student.semester)
+        </dt>
+        <dd class="col-sm-10">
+          @Html.DisplayFor(model => model.student.semester)
+        </dd>
+        <dt class="col-sm-2">
+          @Html.DisplayNameFor(model => model.student.average)
+        </dt>
+        <dd class="col-sm-10">
+          @Html.DisplayFor(model => model.student.average_)
+        </dd>
+        <dt class="col-sm-2">
+          @Html.DisplayNameFor(model => model.student.credits)
+        </dt>
+        <dd class="col-sm-10">
+          @Html.DisplayFor(model => model.student.credits)
+        </dd>
+        <dt class="col-sm-2">
+          @Html.DisplayNameFor(model => model.student.progressFactor)
+        </dt>
+        <dd class="col-sm-10">
+          @Html.DisplayFor(model => model.student.progressFactor)
+        </dd>
+        <dt class="col-sm-2">
+          @Html.DisplayNameFor(model => model.student.assignments)
+        </dt>
+        <dd class="col-sm-10">
+          <ul class="list-unstyled mb-0">
+            @foreach (var thesis in Model.student.assignments.Select(a => a.thesis).OrderBy(t => t.assignedAt))
+            {
+              <li>
+                <span>@Html.DisplayFor(model => thesis.status) -> </span>
+                <a asp-page="/Theses/Details" asp-route-id="@thesis.thesisId">@Html.DisplayFor(model => thesis.title)</a>
+              </li>
+            }
+          </ul>
+        </dd>
+      </dl>
+    </div>
+    @if (User.IsInRole(Globals.PROFESSOR_ROLE))
+    {
+      <div>
+        <a asp-page="./Index">Φοιτητές</a>
+      </div>
+    }
   </div>
+  <div class="tab-pane fade" id="grades-content">
+    <table id="grades" class="table table-striped table-bordered dt-responsive nowrap" style="width: 100%;">
+      <thead>
+        <tr>
+          <th>
+            @Html.DisplayNameFor(model => model.student.grades[0].title)
+          </th>
+          <th>
+            @Html.DisplayNameFor(model => model.student.grades[0].cyear)
+          </th>
+          <th>
+            @Html.DisplayNameFor(model => model.student.grades[0].cgrade)
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach (var item in Model.student.grades)
+        {
+          <tr>
+            <td>
+              @Html.DisplayFor(modelItem => item.title)
+            </td>
+            <td>
+              @Html.DisplayFor(modelItem => item.cyear)
+            </td>
+            <td>
+              @Html.DisplayFor(modelItem => item.cgrade)
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+
+@section Scripts {
+  <script>
+    $(function () {
+      $('#grades').DataTable({
+        columnDefs: [{
+          className: 'control',
+          orderable: false,
+          targets: 0
+        }],
+        order: [1, 'asc'],
+        responsive: {
+          details: {
+            type: 'column'
+          }
+        }
+      });
+    });
+  </script>
 }

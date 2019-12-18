@@ -51,6 +51,11 @@ namespace ptyxiaki.Pages.Students
       {
         return NotFound();
       }
+
+      student.grades = await context.grades
+        .Where(g => g.spec_aem == student.registrationNumber)
+        .ToListAsync();
+
       return Page();
     }
   }

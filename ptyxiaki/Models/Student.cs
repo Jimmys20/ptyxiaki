@@ -30,6 +30,7 @@ namespace ptyxiaki.Models
     [Display(Name = "Πτυχιακές εργασίες")]
     public List<Assignment> assignments { get; set; }
     public List<Grade> grades { get; set; }
+    public List<Declaration> declarations { get; set; }
 
     [Display(Name = "Ονοματεπώνυμο")]
     public string fullName => $"{lastName} {firstName}";
