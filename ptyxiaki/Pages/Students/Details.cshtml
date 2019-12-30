@@ -101,21 +101,23 @@
     <table id="grades" class="table table-striped table-bordered dt-responsive nowrap" style="width: 100%;">
       <thead>
         <tr>
+          <th></th>
           <th>
-            @Html.DisplayNameFor(model => model.student.grades[0].title)
+            @Html.DisplayNameFor(model => model.grades[0].title)
           </th>
           <th>
-            @Html.DisplayNameFor(model => model.student.grades[0].cyear)
+            @Html.DisplayNameFor(model => model.grades[0].cyear)
           </th>
           <th>
-            @Html.DisplayNameFor(model => model.student.grades[0].cgrade)
+            @Html.DisplayNameFor(model => model.grades[0].cgrade)
           </th>
         </tr>
       </thead>
       <tbody>
-        @foreach (var item in Model.student.grades)
+        @foreach (var item in Model.grades)
         {
           <tr>
+            <td></td>
             <td>
               @Html.DisplayFor(modelItem => item.title)
             </td>

@@ -25,6 +25,7 @@ namespace ptyxiaki.Pages.Students
     }
 
     public Student student { get; set; }
+    public List<Grade> grades { get; set; }
 
     public async Task<IActionResult> OnGetAsync(int? id)
     {
@@ -52,7 +53,7 @@ namespace ptyxiaki.Pages.Students
         return NotFound();
       }
 
-      student.grades = await context.grades
+      grades = await context.grades
         .Where(g => g.spec_aem == student.registrationNumber)
         .ToListAsync();
 
