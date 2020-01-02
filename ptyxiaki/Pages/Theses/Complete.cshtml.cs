@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Hangfire;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -20,18 +24,25 @@ namespace ptyxiaki.Pages.Theses
     private readonly DepartmentContext context;
     private readonly IAuthorizationService authorizationService;
     private readonly IEmailService emailService;
+    private readonly IWebHostEnvironment environment;
 
     public CompleteModel(DepartmentContext context,
                          IAuthorizationService authorizationService,
-                         IEmailService emailService)
+                         IEmailService emailService,
+                         IWebHostEnvironment environment)
     {
       this.context = context;
       this.authorizationService = authorizationService;
       this.emailService = emailService;
+      this.environment = environment;
     }
 
     [BindProperty]
     public Thesis thesis { get; set; }
+    [BindProperty]
+    [Required]
+    [Display(Name = "Αρχείο")]
+    public IFormFile upload { get; set; }
 
     public async Task<IActionResult> OnGetAsync(int? id)
     {
@@ -95,6 +106,29 @@ namespace ptyxiaki.Pages.Theses
 
       thesis.status = Status.Completed;
       thesis.completedAt = DateTime.Now;
+
+      var extension = Path.GetExtension(upload.FileName);
+
+      if (extension.ToUpper() != ".PDF")
+      {
+        ModelState.AddModelError(nameof(upload), "Το αρχείο πρέπει να είναι σε μορφή PDF.");
+        return Page();
+      }
+
+      var fileName = $"{thesis.completedAt.Value.ToString("yyyy-MM-dd")}";
+      foreach (var student in thesis.assignments.Select(a => a.student))
+      {
+        fileName += $"_{student.registrationNumber}";
+      }
+      fileName += extension;
+
+      var file = Path.Combine(environment.ContentRootPath, "theses", fileName);
+      using (var fileStream = new FileStream(file, FileMode.Create))
+      {
+        await upload.CopyToAsync(fileStream);
+      }
+
+      thesis.filePath = file;
 
       try
       {

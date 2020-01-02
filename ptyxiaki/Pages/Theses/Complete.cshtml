@@ -63,9 +63,18 @@
     </dd>
   </dl>
 
-  <form method="post">
-    <input type="hidden" asp-for="thesis.thesisId" />
-    <input type="submit" value="Ολοκλήρωση" class="btn btn-warning" /> |
-    <a asp-page="./Index">Πτυχιακές</a>
-  </form>
+  <div class="row">
+    <div class="col-md-4">
+      <form method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="thesis.thesisId" />
+        <div class="form-group">
+          <label asp-for="upload" class="control-label"></label>
+          <input asp-for="upload" class="form-control-file" />
+          <span asp-validation-for="upload" class="text-danger"></span>
+        </div>
+        <input type="submit" value="Ολοκλήρωση" class="btn btn-warning" /> |
+        <a asp-page="./Index">Πτυχιακές</a>
+      </form>
+    </div>
+  </div>
 </div>

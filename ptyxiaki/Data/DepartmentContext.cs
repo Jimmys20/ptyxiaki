@@ -28,5 +28,12 @@ namespace ptyxiaki.Data
 
     public DbSet<Semester> semesters { get; set; }
     public DbSet<Date> dates { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+      modelBuilder.Entity<Student>()
+        .HasIndex(s => s.registrationNumber)
+        .IsUnique();
+    }
   }
 }
