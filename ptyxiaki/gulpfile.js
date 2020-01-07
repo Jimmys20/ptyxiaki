@@ -2,7 +2,6 @@
 var del = require('del');
 
 var libraries = [
-  'node_modules/@fortawesome/**/*',
   'node_modules/bootstrap/**/*',
   'node_modules/datatables.net/**/*',
   'node_modules/datatables.net-bs4/**/*',
