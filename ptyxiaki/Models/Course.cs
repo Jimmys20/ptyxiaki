@@ -19,5 +19,8 @@ namespace ptyxiaki.Models
     [Name("Εξάμηνο")]
     [Display(Name = "Εξάμηνο")]
     public string semester { get; set; }
+
+    public int programOfStudiesId { get; set; }
+    public ProgramOfStudies programOfStudies { get; set; }
   }
 }

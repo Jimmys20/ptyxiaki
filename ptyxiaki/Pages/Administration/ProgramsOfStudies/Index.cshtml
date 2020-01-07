@@ -1,0 +1,88 @@
+﻿@page
+@model ptyxiaki.Pages.Administration.ProgramsOfStudies.IndexModel
+
+@{
+  ViewData["Title"] = "Προγράμματα σπουδών";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+  <a asp-page="Create">Δημιουργία νέου</a>
+</p>
+<table class="table">
+  <thead>
+    <tr>
+      <th>
+        @Html.DisplayNameFor(model => model.programsOfStudies[0].title)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.programsOfStudies[0].courses)
+      </th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var item in Model.programsOfStudies)
+    {
+      <tr>
+        <td>
+          @Html.DisplayFor(modelItem => item.title)
+        </td>
+        <td>
+          <!-- Button to Open the Modal -->
+          <a href="#" data-toggle="modal" data-target="#programOfStudies@(item.programOfStudiesId)">
+            @Html.DisplayNameFor(model => model.programsOfStudies[0].courses)
+          </a>
+
+          <!-- The Modal -->
+          <div class="modal" id="programOfStudies@(item.programOfStudiesId)">
+            <div class="modal-dialog">
+              <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                  <h4 class="modal-title">@Html.DisplayFor(modelItem => item.title)</h4>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>
+                          @Html.DisplayNameFor(model => model.programsOfStudies[0].courses[0].code)
+                        </th>
+                        <th>
+                          @Html.DisplayNameFor(model => model.programsOfStudies[0].courses[0].title)
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @foreach (var course in item.courses.OrderBy(c => c.code))
+                      {
+                        <tr>
+                          <td>
+                            @Html.DisplayFor(modelItem => course.code)
+                          </td>
+                          <td>
+                            @Html.DisplayFor(modelItem => course.title)
+                          </td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </td>
+        <td>
+          <a asp-page="./Edit" asp-route-id="@item.programOfStudiesId">Επεξεργασία</a>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>

@@ -1,0 +1,36 @@
+﻿@page
+@model ptyxiaki.Pages.Administration.ProgramsOfStudies.EditModel
+
+@{
+  ViewData["Title"] = "Επεξεργασία";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h4>Πρόγραμμα σπουδών</h4>
+<hr />
+<div class="row">
+  <div class="col-md-4">
+    <form method="post" enctype="multipart/form-data">
+      <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+      <input type="hidden" asp-for="programOfStudies.programOfStudiesId" />
+      <div class="form-group">
+        <label asp-for="programOfStudies.title" class="control-label"></label>
+        <input asp-for="programOfStudies.title" class="form-control" />
+        <span asp-validation-for="programOfStudies.title" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="courses" class="control-label"></label>
+        <input asp-for="courses" class="form-control-file" />
+        <span asp-validation-for="courses" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <input type="submit" value="Αποθήκευση" class="btn btn-primary" />
+      </div>
+    </form>
+  </div>
+</div>
+
+<div>
+  <a asp-page="./Index">Πίσω στα προγράμματα σπουδών</a>
+</div>

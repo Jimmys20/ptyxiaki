@@ -1,0 +1,23 @@
+﻿@page "{handler?}"
+@model ptyxiaki.Pages.Administration.Data.ExportModel
+
+@{
+  ViewData["Title"] = "Εξαγωγή δεδομένων";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+  <div class="col-md-4">
+    <form asp-page-handler="download" method="get">
+      <div class="form-group">
+        <label asp-for="semesterId" class="control-label"></label>
+        <select asp-for="semesterId" class="form-control" asp-items="ViewBag.semesters">
+          <option value="">Όλα τα εξάμηνα</option>
+        </select>
+        <span asp-validation-for="semesterId" class="text-danger"></span>
+      </div>
+      <input type="submit" value="Download" class="btn btn-primary" />
+    </form>
+  </div>
+</div>

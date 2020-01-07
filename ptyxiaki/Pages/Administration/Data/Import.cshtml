@@ -1,0 +1,43 @@
+﻿@page
+@model ptyxiaki.Pages.Administrator.Data.ImportModel
+
+@{
+  ViewData["Title"] = "Εισαγωγή δεδομένων";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (!string.IsNullOrEmpty(Model.alert.message))
+{
+  <div class="alert @Model.alert.type">
+    @Model.alert.message
+  </div>
+}
+
+<h4>Αρχεία</h4>
+<hr />
+<div class="row">
+  <div class="col-md-4">
+    <form method="post" enctype="multipart/form-data">
+      <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+      <div class="form-group">
+        <label asp-for="files.students" class="control-label"></label>
+        <input asp-for="files.students" class="form-control-file" />
+        <span asp-validation-for="files.students" class="text-danger"></span>
+      </div>
+      @*<div class="form-group">
+          <label asp-for="files.courses" class="control-label"></label>
+          <input asp-for="files.courses" class="form-control-file" />
+          <span asp-validation-for="files.courses" class="text-danger"></span>
+        </div>*@
+      <div class="form-group">
+        <label asp-for="files.grades" class="control-label"></label>
+        <input asp-for="files.grades" class="form-control-file" />
+        <span asp-validation-for="files.grades" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <input type="submit" value="Αποθήκευση" class="btn btn-primary" />
+      </div>
+    </form>
+  </div>
+</div>

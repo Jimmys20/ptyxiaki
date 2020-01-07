@@ -11,8 +11,8 @@ namespace ptyxiaki.Models
   {
     [Display(Name = "Φοιτητές")]
     public IFormFile students { get; set; }
-    [Display(Name = "Μαθήματα")]
-    public IFormFile courses { get; set; }
+    //[Display(Name = "Μαθήματα")]
+    //public IFormFile courses { get; set; }
     [Display(Name = "Βαθμολογίες")]
     public IFormFile grades { get; set; }
   }
