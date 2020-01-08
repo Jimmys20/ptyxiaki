@@ -19,6 +19,11 @@ namespace ptyxiaki.Common
     public const string STUDENT_POLICY = "STUDENT_POLICY";
     public const string PROFESSOR_POLICY = "PROFESSOR_POLICY";
     public const string ADMINISTRATOR_POLICY = "ADMINISTRATOR_POLICY";
+
+    public const int STUDENT_SEMESTER_REQUIREMENT = 7; //10
+    public const int STUDENT_CREDITS_REQUIREMENT = 160; //210
+    public const int MAX_DECLARATIONS = 5;
+    public const int MAX_PREPARATION_TIME = 24; //months
   }
 
   public static class Claims

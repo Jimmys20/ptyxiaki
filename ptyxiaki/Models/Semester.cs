@@ -15,7 +15,5 @@ namespace ptyxiaki.Models
     [DataType(DataType.Date)]
     [Display(Name = "Δημιουργήθηκε")]
     public DateTime createdAt { get; set; }
-    [Display(Name = "Αύξων αριθμός")]
-    public int serialNumber { get; set; }
   }
 }
