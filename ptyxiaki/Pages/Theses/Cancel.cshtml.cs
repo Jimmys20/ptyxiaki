@@ -108,7 +108,7 @@ namespace ptyxiaki.Pages.Theses
 
         var addresses = thesis.assignments.Select(a => new EmailAddress(a.student.fullName, a.student.email));
         var subject = "ptyxiaki - ακύρωση";
-        var text = $"Η διπλωματική εργασία «{thesis.title}» ακυρώθηκε από τον επιβλέποντα καθηγητή.";
+        var text = $"Η διπλωματική εργασία «{thesis.title}» ακυρώθηκε από τον επιβλέποντα καθηγητή για τον λόγο: «{thesis.cancelReason}».";
         emailService.sendEmail(addresses, subject, text);
       }
       catch (DbUpdateConcurrencyException)

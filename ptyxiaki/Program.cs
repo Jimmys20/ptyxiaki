@@ -45,6 +45,7 @@ namespace ptyxiaki
             .ConfigureWebHostDefaults(webBuilder =>
             {
               webBuilder.UseStartup<Startup>();
+              webBuilder.UseUrls("https://*:44319");
             });
   }
 }

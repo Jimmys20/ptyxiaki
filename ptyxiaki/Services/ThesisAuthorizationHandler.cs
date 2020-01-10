@@ -39,7 +39,7 @@ namespace ptyxiaki.Services
       switch (requirement.Name)
       {
         case nameof(Operations.Details):
-          if (isProfessor || (isStudent && !new[] { Status.Unavailable, Status.Canceled }.Contains(resource.status)))
+          if (isProfessor || !new[] { Status.Unavailable, Status.Canceled }.Contains(resource.status))
           {
             context.Succeed(requirement);
           }

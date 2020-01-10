@@ -1,6 +1,7 @@
 ﻿using Hangfire;
 using MailKit.Net.Pop3;
 using MailKit.Net.Smtp;
+using MailKit.Security;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using MimeKit;
@@ -38,7 +39,7 @@ namespace ptyxiaki.Services
       BackgroundJob.Enqueue(() => sendEmailAsync(addresses, subject, text));
     }
 
-    private async Task sendEmailAsync(IEnumerable<EmailAddress> addresses, string subject, string text)
+    public async Task sendEmailAsync(IEnumerable<EmailAddress> addresses, string subject, string text)
     {
       if (addresses == null || !addresses.Any())
         return;
@@ -60,8 +61,7 @@ namespace ptyxiaki.Services
       {
         client.ServerCertificateValidationCallback = (s, c, h, e) => true;
 
-        await client.ConnectAsync(options.host, options.port, options.useSsl);
-
+        await client.ConnectAsync(options.host, options.port, SecureSocketOptions.None);
 
         if (client.Capabilities.HasFlag(SmtpCapabilities.Authentication))
         {

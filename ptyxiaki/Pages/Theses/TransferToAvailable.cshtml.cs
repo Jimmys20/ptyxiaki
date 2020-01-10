@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ptyxiaki.Data;
+using ptyxiaki.Extensions;
 using ptyxiaki.Models;
 using ptyxiaki.Services;
 
@@ -84,6 +85,9 @@ namespace ptyxiaki.Pages.Theses
       }
 
       thesis.status = Status.Available;
+
+      var semester = await context.semesters.getCurrentSemesterAsync();
+      thesis.semesterId = semester.semesterId;
 
       try
       {

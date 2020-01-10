@@ -21,12 +21,17 @@ namespace ptyxiaki.Pages.Theses
     private readonly DepartmentContext context;
     private readonly IMapper mapper;
     private readonly IAuthorizationService authorizationService;
+    private readonly IEmailService emailService;
 
-    public EditModel(DepartmentContext context, IMapper mapper, IAuthorizationService authorizationService)
+    public EditModel(DepartmentContext context,
+                     IMapper mapper,
+                     IAuthorizationService authorizationService,
+                     IEmailService emailService)
     {
       this.context = context;
       this.mapper = mapper;
       this.authorizationService = authorizationService;
+      this.emailService = emailService;
     }
 
     [BindProperty]
@@ -112,15 +117,35 @@ namespace ptyxiaki.Pages.Theses
         mapper.Map(thesisVmAdministrator, thesis);
       }
 
+      bool assigned = false;
+
       if (thesis.assignments.Any() && !thesis.assignedAt.HasValue)
       {
         thesis.assignedAt = DateTime.Now;
         thesis.status = Status.Active;
+
+        var semester = await context.semesters.getCurrentSemesterAsync();
+        thesis.semesterId = semester.semesterId;
+
+        assigned = true;
       }
 
       try
       {
         await context.SaveChangesAsync();
+
+        if (assigned)
+        {
+          var assignments = await context.assignments
+            .Include(a => a.student)
+            .Where(a => a.thesisId == thesis.thesisId)
+            .ToListAsync();
+
+          var addresses = assignments.Select(a => new EmailAddress(a.student.fullName, a.student.email));
+          var subject = "ptyxiaki - ανάθεση";
+          var text = $"Σας ανατέθηκε η διπλωματική εργασία «{thesis.title}».";
+          emailService.sendEmail(addresses, subject, text);
+        }
       }
       catch (DbUpdateConcurrencyException)
       {

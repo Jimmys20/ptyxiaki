@@ -134,7 +134,12 @@ namespace ptyxiaki.Pages.Theses
 
       if (thesis.assignments.Any())
       {
-        var addresses = thesis.assignments.Select(a => new EmailAddress(a.student.fullName, a.student.email));
+        var assignments = await context.assignments
+          .Include(a => a.student)
+          .Where(a => a.thesisId == thesis.thesisId)
+          .ToListAsync();
+
+        var addresses = assignments.Select(a => new EmailAddress(a.student.fullName, a.student.email));
         var subject = "ptyxiaki - ανάθεση";
         var text = $"Σας ανατέθηκε η διπλωματική εργασία «{thesis.title}».";
         emailService.sendEmail(addresses, subject, text);
