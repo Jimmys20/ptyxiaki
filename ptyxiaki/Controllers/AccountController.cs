@@ -15,10 +15,9 @@ using ptyxiaki.Models;
 
 namespace ptyxiaki.Controllers
 {
-  [Route("[controller]/[action]")]
   public class AccountController : Controller
   {
-    private DepartmentContext context;
+    private readonly DepartmentContext context;
 
     public AccountController(DepartmentContext context)
     {
@@ -47,8 +46,6 @@ namespace ptyxiaki.Controllers
 
       var claimsPrincipal = result.Principal;
       var claims = new List<Claim>();
-      var identity = claimsPrincipal.Identity as ClaimsIdentity;
-      identity.AddClaim(new Claim("", ""));
 
       if (claimsPrincipal.IsInRole(Globals.PROFESSOR_ROLE) || claimsPrincipal.FindFirstValue(Claims.REGISTRATION_NUMBER) == "134007")
       {
@@ -62,7 +59,8 @@ namespace ptyxiaki.Controllers
             firstName = claimsPrincipal.FindFirstValue(ClaimTypes.GivenName),
             lastName = claimsPrincipal.FindFirstValue(ClaimTypes.Surname),
             email = claimsPrincipal.FindFirstValue(ClaimTypes.Email),
-            phone = claimsPrincipal.FindFirstValue(Claims.PHONE)
+            phone = claimsPrincipal.FindFirstValue(Claims.PHONE),
+            website = claimsPrincipal.FindFirstValue(ClaimTypes.Webpage)
           };
 
           context.professors.Add(professor);
@@ -75,7 +73,8 @@ namespace ptyxiaki.Controllers
         if (professor.isAdmin)
           claims.Add(new Claim(ClaimTypes.Role, Globals.ADMINISTRATOR_ROLE));
       }
-      else if (claimsPrincipal.IsInRole(Globals.STUDENT_ROLE))
+
+      if (claimsPrincipal.IsInRole(Globals.STUDENT_ROLE))
       {
         var student = await context.students.FirstOrDefaultAsync(s => s.registrationNumber == claimsPrincipal.FindFirstValue(Claims.REGISTRATION_NUMBER));
 

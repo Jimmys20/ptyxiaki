@@ -26,8 +26,8 @@ namespace ptyxiaki
         try
         {
           var context = services.GetRequiredService<DepartmentContext>();
-          //context.Database.EnsureCreated();
-          DbInitializer.Initialize(context);
+          context.Database.EnsureCreated();
+          //DbInitializer.Initialize(context);
         }
         catch (Exception ex)
         {

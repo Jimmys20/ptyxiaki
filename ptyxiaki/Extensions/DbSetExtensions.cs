@@ -10,10 +10,14 @@ namespace ptyxiaki.Extensions
 {
   public static class DbSetExtensions
   {
-    public static async Task<int?> getCurrentSemesterIdAsync(this DbSet<Semester> semesters)
+    public static async Task<Semester> getCurrentSemesterAsync(this DbSet<Semester> semesters)
     {
-      var semester = await semesters.OrderBy(s => s.createdAt).FirstOrDefaultAsync();
-      return semester?.semesterId;
+      return await semesters.OrderByDescending(s => s.semesterId).FirstOrDefaultAsync();
+    }
+
+    public static int? getCurrentProgramOfStudiesId(this DbSet<ProgramOfStudies> programsOfStudies)
+    {
+      return programsOfStudies.OrderByDescending(p => p.programOfStudiesId).FirstOrDefault()?.programOfStudiesId;
     }
 
     public static bool isPostPeriod(this DbSet<Date> dates)
@@ -47,6 +51,14 @@ namespace ptyxiaki.Extensions
       return students.Where(s => s.semester >= Globals.STUDENT_SEMESTER_REQUIREMENT &&
                                  s.credits >= Globals.STUDENT_CREDITS_REQUIREMENT &&
                                  !s.assignments.Any(a => a.thesis.status != Status.Canceled));
+    }
+
+    public static bool meetsRequirements(this DbSet<Student> students, int? id)
+    {
+      return students.Any(s => s.studentId == id &&
+                               s.semester >= Globals.STUDENT_SEMESTER_REQUIREMENT &&
+                               s.credits >= Globals.STUDENT_CREDITS_REQUIREMENT &&
+                               !s.assignments.Any(a => a.thesis.status != Status.Canceled));
     }
   }
 }

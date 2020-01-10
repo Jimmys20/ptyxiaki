@@ -1,4 +1,5 @@
-﻿using MailKit.Net.Pop3;
+﻿using Hangfire;
+using MailKit.Net.Pop3;
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
@@ -14,7 +15,8 @@ namespace ptyxiaki.Services
 {
   public interface IEmailService
   {
-    Task sendEmailAsync(IEnumerable<EmailAddress> addresses, string subject, string text);
+    void sendEmail(EmailAddress address, string subject, string text);
+    void sendEmail(IEnumerable<EmailAddress> addresses, string subject, string text);
   }
 
   public class EmailService : IEmailService
@@ -26,7 +28,17 @@ namespace ptyxiaki.Services
       this.options = options.Value;
     }
 
-    public async Task sendEmailAsync(IEnumerable<EmailAddress> addresses, string subject, string text)
+    public void sendEmail(EmailAddress address, string subject, string text)
+    {
+      sendEmail(new[] { address }, subject, text);
+    }
+
+    public void sendEmail(IEnumerable<EmailAddress> addresses, string subject, string text)
+    {
+      BackgroundJob.Enqueue(() => sendEmailAsync(addresses, subject, text));
+    }
+
+    private async Task sendEmailAsync(IEnumerable<EmailAddress> addresses, string subject, string text)
     {
       if (addresses == null || !addresses.Any())
         return;

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.JsonPatch.Operations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -41,6 +40,7 @@ namespace ptyxiaki.Pages.Theses
         .Include(t => t.assignments).ThenInclude(a => a.student)
         .Include(t => t.categorizations).ThenInclude(c => c.category)
         .Include(t => t.requirements).ThenInclude(r => r.course)
+        .Include(t => t.declarations).ThenInclude(d => d.student)
         .FirstOrDefaultAsync(t => t.thesisId == id);
 
       if (thesis == null)

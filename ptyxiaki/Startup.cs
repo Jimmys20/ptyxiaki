@@ -4,8 +4,11 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Claims;
+using System.Text.Json;
 using System.Threading.Tasks;
 using AutoMapper;
+using Hangfire;
+using Hangfire.MemoryStorage;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OAuth;
@@ -19,9 +22,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ptyxiaki.Common;
 using ptyxiaki.Data;
+using ptyxiaki.Services;
 
 namespace ptyxiaki
 {
@@ -43,19 +49,18 @@ namespace ptyxiaki
         options.CheckConsentNeeded = context => true;
         options.MinimumSameSitePolicy = SameSiteMode.None;
       });
+      services.Configure<EmailServiceOptions>(Configuration.GetSection("EmailServiceOptions"));
 
-      services.AddEntityFrameworkNpgsql()
-        .AddDbContext<DepartmentContext>(options =>
-          options.UseNpgsql(Configuration.GetConnectionString("DepartmentContext")))
-        .BuildServiceProvider();
+      services.AddDbContext<DepartmentContext>(options =>
+        options.UseNpgsql(Configuration.GetConnectionString("DepartmentContext")));
 
-      services.AddAutoMapper();
+      services.AddAutoMapper(typeof(Startup));
       services.AddMvc()
+        .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore)
         .AddRazorPagesOptions(options =>
         {
           options.Conventions.AuthorizeFolder("/Administration", Globals.ADMINISTRATOR_POLICY);
-        })
-        .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+        });
 
       services.AddAuthentication(options =>
       {
@@ -83,6 +88,7 @@ namespace ptyxiaki
         options.ClaimActions.MapJsonKey(ClaimTypes.Role, "eduPersonAffiliation");
         options.ClaimActions.MapJsonKey(Claims.REGISTRATION_NUMBER, "am");
         options.ClaimActions.MapJsonKey(Claims.PHONE, "telephoneNumber");
+        options.ClaimActions.MapJsonKey(ClaimTypes.Webpage, "labeledURI");
 
         options.Events = new OAuthEvents
         {
@@ -97,13 +103,10 @@ namespace ptyxiaki
             var response = await context.Backchannel.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, context.HttpContext.RequestAborted);
             response.EnsureSuccessStatusCode();
 
-            var user = JObject.Parse(await response.Content.ReadAsStringAsync());
-
-            context.RunClaimActions(user);
-            //var db = context.HttpContext.RequestServices.GetRequiredService<DepartmentContext>();
-            //var prof = await db.professors.FindAsync(2);
-
-            //context.Identity.AddClaim(new Claim("", ""));
+            using (var user = JsonDocument.Parse(await response.Content.ReadAsStringAsync()))
+            {
+              context.RunClaimActions(user.RootElement);
+            }
           },
           OnRemoteFailure = context =>
           {
@@ -121,10 +124,18 @@ namespace ptyxiaki
         options.AddPolicy(Globals.PROFESSOR_POLICY, policy => policy.RequireRole(Globals.PROFESSOR_ROLE));
         options.AddPolicy(Globals.ADMINISTRATOR_POLICY, policy => policy.RequireRole(Globals.ADMINISTRATOR_ROLE));
       });
+
+      services.AddScoped<IAuthorizationHandler, ThesisAuthorizationHandler>();
+      services.AddTransient<IEmailService, EmailService>();
+
+      services.AddHangfire(config =>
+      {
+        config.UseMemoryStorage();
+      });
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
       if (env.IsDevelopment())
       {
@@ -140,9 +151,19 @@ namespace ptyxiaki
       app.UseStaticFiles();
       app.UseCookiePolicy();
 
+      app.UseRouting();
       app.UseAuthentication();
 
-      app.UseMvc();
+      app.UseAuthorization();
+      app.UseEndpoints(endpoints =>
+      {
+        endpoints.MapRazorPages();
+        endpoints.MapControllers();
+        endpoints.MapDefaultControllerRoute();
+      });
+
+      app.UseHangfireDashboard();
+      app.UseHangfireServer();
     }
   }
 }

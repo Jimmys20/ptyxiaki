@@ -1,5 +1,6 @@
 ﻿@page
 @model ptyxiaki.Pages.Theses.DetailsModel
+@inject IAuthorizationService authorizationService
 
 @{
   ViewData["Title"] = "Λεπτομέρειες";
@@ -48,12 +49,6 @@
       @Html.DisplayFor(model => model.thesis.createdAt)&nbsp;
     </dd>
     <dt class="col-sm-2">
-      @Html.DisplayNameFor(model => model.thesis.assignmentMethod)
-    </dt>
-    <dd class="col-sm-10">
-      @Html.DisplayFor(model => model.thesis.assignmentMethod)&nbsp;
-    </dd>
-    <dt class="col-sm-2">
       @Html.DisplayNameFor(model => model.thesis.assignmentType)
     </dt>
     <dd class="col-sm-10">
@@ -86,6 +81,12 @@
       </dt>
       <dd class="col-sm-10">
         @Html.DisplayFor(model => model.thesis.canceledAt)&nbsp;
+      </dd>
+      <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.thesis.cancelReason)
+      </dt>
+      <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.thesis.cancelReason)&nbsp;
       </dd>
     }
     @if (Model.thesis.status == Status.Completed)
@@ -149,24 +150,60 @@
     <dd class="col-sm-10">
       @Html.DisplayFor(model => model.thesis.restrictions)&nbsp;
     </dd>
+    @if (User.IsInRole(Globals.PROFESSOR_ROLE) && User.getUserId() == Model.thesis.professorId)
+    {
+      <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.thesis.declarations)
+      </dt>
+      <dd class="col-sm-10">
+        <ul class="list-unstyled mb-0">
+          @foreach (var student in Model.thesis.declarations.Select(d => d.student))
+          {
+            <li>
+              <a asp-page="/Students/Details" asp-route-id="@student.studentId">@Html.DisplayFor(model => student.fullName)</a>
+            </li>
+          }
+        </ul>
+      </dd>
+    }
   </dl>
 </div>
 <div>
-  @if ((await AuthorizationService.AuthorizeAsync(User, Model.thesis, Operations.Edit)).Succeeded)
+  <a asp-page="./Index">Πτυχιακές</a><br />
+  @if ((await authorizationService.AuthorizeAsync(User, Model.thesis, Operations.Edit)).Succeeded)
   {
-    <text><a asp-page="./Edit" asp-route-id="@Model.thesis.thesisId">Επεξεργασία</a> |</text>
+    <a asp-page="./Edit" asp-route-id="@Model.thesis.thesisId">Επεξεργασία</a><br />
   }
-  <a asp-page="./Index">Πτυχιακές</a>
-  @if ((await AuthorizationService.AuthorizeAsync(User, Model.thesis, Operations.Declare)).Succeeded)
+  @if ((await authorizationService.AuthorizeAsync(User, Model.thesis, Operations.Delete)).Succeeded)
   {
-    @*<text>
-        <form asp-page="/Declarations" asp-page-handler="Add">
-          <input type="hidden" name="thesisId" value="@Model.thesis.thesisId" />
-
-          <div class="form-group">
-            <input type="submit" value="Save" class="btn btn-primary" />
-          </div>
-        </form>
-      </text>*@
+    <a asp-page="./Delete" asp-route-id="@Model.thesis.thesisId">Διαγραφή</a><br />
+  }
+  @if ((await authorizationService.AuthorizeAsync(User, Model.thesis, Operations.TransferToUnavailable)).Succeeded)
+  {
+    <a asp-page="./TransferToUnavailable" asp-route-id="@Model.thesis.thesisId">Μεταφορά στις μη διαθέσιμες</a><br />
+  }
+  @if ((await authorizationService.AuthorizeAsync(User, Model.thesis, Operations.TransferToAvailable)).Succeeded)
+  {
+    <a asp-page="./TransferToAvailable" asp-route-id="@Model.thesis.thesisId">Μεταφορά στις διαθέσιμες</a><br />
+  }
+  @if ((await authorizationService.AuthorizeAsync(User, Model.thesis, Operations.Complete)).Succeeded)
+  {
+    <a asp-page="./Complete" asp-route-id="@Model.thesis.thesisId">Ολοκλήρωση</a><br />
+  }
+  @if ((await authorizationService.AuthorizeAsync(User, Model.thesis, Operations.Cancel)).Succeeded)
+  {
+    <a asp-page="./Cancel" asp-route-id="@Model.thesis.thesisId">Ακύρωση</a><br />
+  }
+  @if ((await authorizationService.AuthorizeAsync(User, Model.thesis, Operations.Copy)).Succeeded)
+  {
+    <a asp-page="./Create" asp-route-id="@Model.thesis.thesisId">Αντιγραφή</a><br />
+  }
+  @if ((await authorizationService.AuthorizeAsync(User, Model.thesis, Operations.Declare)).Succeeded)
+  {
+    <form method="post" asp-page="/Students/Declarations" asp-page-handler="Add">
+      <input type="hidden" name="id" value="@Model.thesis.thesisId" />
+      <input type="submit" value="Προσθήκη στη δήλωση" class="btn btn-link p-0" />
+    </form>
+    <br />
   }
 </div>

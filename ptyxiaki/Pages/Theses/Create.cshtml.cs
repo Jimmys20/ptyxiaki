@@ -36,7 +36,24 @@ namespace ptyxiaki.Pages.Theses
 
     public async Task<IActionResult> OnGetAsync(int? id)
     {
-      var authorizationResult = await authorizationService.AuthorizeAsync(User, new Thesis(), Operations.Create);
+      Thesis thesis = null;
+      var operation = Operations.Create;
+
+      if (id != null)
+      {
+        thesis = await context.theses
+          .Include(t => t.categorizations)
+          .Include(t => t.requirements)
+          .FirstOrDefaultAsync(t => t.thesisId == id);
+
+        if (thesis != null)
+        {
+          thesisVm = mapper.Map<ThesisVmProfessor>(thesis);
+          operation = Operations.Copy;
+        }
+      }
+
+      var authorizationResult = await authorizationService.AuthorizeAsync(User, thesis ?? new Thesis(), operation);
 
       if (!authorizationResult.Succeeded)
       {
@@ -46,19 +63,6 @@ namespace ptyxiaki.Pages.Theses
         }
 
         return Challenge();
-      }
-
-      if (id != null)
-      {
-        var thesis = await context.theses
-          .Include(t => t.categorizations)
-          .Include(t => t.requirements)
-          .FirstOrDefaultAsync(t => t.thesisId == id);
-
-        if (thesis != null)
-        {
-          thesisVm = mapper.Map<ThesisVmProfessor>(thesis);
-        }
       }
 
       populateSelectLists();
@@ -145,8 +149,14 @@ namespace ptyxiaki.Pages.Theses
         .getStudentsWhoMeetRequirements()
         .OrderBy(s => s.lastName).ThenBy(s => s.firstName);
 
+      var currentProgramOfStudiesId = context.programsOfStudies.getCurrentProgramOfStudiesId();
+
+      var courses = context.courses
+        .Where(c => c.programOfStudiesId == currentProgramOfStudiesId)
+        .OrderBy(c => c.code);
+
       ViewData["students"] = new SelectList(students, "studentId", "registrationNumberAndFullName");
-      ViewData["courses"] = new SelectList(context.courses, "courseId", "title");
+      ViewData["courses"] = new SelectList(courses, "courseId", "title");
       ViewData["categories"] = new SelectList(context.categories, "categoryId", "title");
     }
   }

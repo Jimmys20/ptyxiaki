@@ -1,0 +1,133 @@
+﻿@page
+@model ptyxiaki.Pages.Theses.EditModel
+
+@{
+  ViewData["Title"] = "Επεξεργασία";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h4>Πτυχιακή</h4>
+<hr />
+<div class="row">
+  <div class="col-md-4">
+    <form method="post">
+      <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+      <input type="hidden" asp-for="thesisId" />
+      <div class="form-group">
+        <label asp-for="thesisVmProfessor.title" class="control-label"></label><span class="text-muted"> (Υποχρεωτικό)</span>
+        <input asp-for="thesisVmProfessor.title" class="form-control" />
+        <span asp-validation-for="thesisVmProfessor.title" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="thesisVmProfessor.englishTitle" class="control-label"></label><span class="text-muted"> (Υποχρεωτικό)</span>
+        <input asp-for="thesisVmProfessor.englishTitle" class="form-control" />
+        <span asp-validation-for="thesisVmProfessor.englishTitle" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="thesisVmProfessor.categorizations" class="control-label"></label><span class="text-muted"> (Τουλάχιστον 1)</span>
+        <select id="categories" asp-for="thesisVmProfessor.categorizations" class="form-control" asp-items="ViewBag.categories"></select>
+        <span asp-validation-for="thesisVmProfessor.categorizations" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="thesisVmProfessor.requirements" class="control-label"></label><span class="text-muted"> (2 έως 4)</span>
+        <select id="courses" asp-for="thesisVmProfessor.requirements" class="form-control" asp-items="ViewBag.courses"></select>
+        <span asp-validation-for="thesisVmProfessor.requirements" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="thesisVmProfessor.description" class="control-label"></label><span class="text-muted"> (Υποχρεωτικό)</span>
+        <textarea asp-for="thesisVmProfessor.description" class="form-control" rows="5"></textarea>
+        <span asp-validation-for="thesisVmProfessor.description" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="thesisVmProfessor.bibliography" class="control-label"></label>
+        <textarea asp-for="thesisVmProfessor.bibliography" class="form-control"></textarea>
+        <span asp-validation-for="thesisVmProfessor.bibliography" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="thesisVmProfessor.sources" class="control-label"></label>
+        <textarea asp-for="thesisVmProfessor.sources" class="form-control"></textarea>
+        <span asp-validation-for="thesisVmProfessor.sources" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="thesisVmProfessor.tools" class="control-label"></label>
+        <textarea asp-for="thesisVmProfessor.tools" class="form-control"></textarea>
+        <span asp-validation-for="thesisVmProfessor.tools" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="thesisVmProfessor.restrictions" class="control-label"></label>
+        <textarea asp-for="thesisVmProfessor.restrictions" class="form-control"></textarea>
+        <span asp-validation-for="thesisVmProfessor.restrictions" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="thesisVmProfessor.assignmentType" class="control-label"></label>
+        <select asp-for="thesisVmProfessor.assignmentType" class="form-control" asp-items="Html.GetEnumSelectList<AssignmentType>()"></select>
+        <span asp-validation-for="thesisVmProfessor.assignmentType" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="thesisVmProfessor.assignments" class="control-label"></label>
+        <select id="students" asp-for="thesisVmProfessor.assignments" class="form-control" asp-items="ViewBag.students"></select>
+        <span asp-validation-for="thesisVmProfessor.assignments" class="text-danger"></span>
+      </div>
+      @if (User.IsInRole(Globals.ADMINISTRATOR_ROLE))
+      {
+        <div class="form-group">
+          <label asp-for="thesisVmAdministrator.status" class="control-label"></label>
+          <select asp-for="thesisVmAdministrator.status" class="form-control" asp-items="Html.GetEnumSelectList<Status>()"></select>
+          <span asp-validation-for="thesisVmAdministrator.status" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+          <label asp-for="thesisVmAdministrator.professorId" class="control-label"></label>
+          <select id="professors" asp-for="thesisVmAdministrator.professorId" class="form-control" asp-items="ViewBag.professors"></select>
+          <span asp-validation-for="thesisVmAdministrator.professorId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+          <label asp-for="thesisVmAdministrator.createdAt" class="control-label"></label>
+          <input asp-for="thesisVmAdministrator.createdAt" class="form-control datetimepicker" autocomplete="off" />
+          <span asp-validation-for="thesisVmAdministrator.createdAt" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+          <label asp-for="thesisVmAdministrator.assignedAt" class="control-label"></label>
+          <input asp-for="thesisVmAdministrator.assignedAt" class="form-control datetimepicker" autocomplete="off" />
+          <span asp-validation-for="thesisVmAdministrator.assignedAt" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+          <label asp-for="thesisVmAdministrator.canceledAt" class="control-label"></label>
+          <input asp-for="thesisVmAdministrator.canceledAt" class="form-control datetimepicker" autocomplete="off" />
+          <span asp-validation-for="thesisVmAdministrator.canceledAt" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+          <label asp-for="thesisVmAdministrator.completedAt" class="control-label"></label>
+          <input asp-for="thesisVmAdministrator.completedAt" class="form-control datetimepicker" autocomplete="off" />
+          <span asp-validation-for="thesisVmAdministrator.completedAt" class="text-danger"></span>
+        </div>
+      }
+      <div class="form-group">
+        <input type="submit" value="Αποθήκευση" class="btn btn-primary" />
+      </div>
+    </form>
+  </div>
+</div>
+
+<div>
+  <a asp-page="./Index">Πτυχιακές</a>
+</div>
+
+@section Scripts {
+  <script>
+    $(function () {
+      $('#courses, #categories, #students').select2();
+
+      if ($('#professors').length) {
+        $('#professors').select2();
+      }
+
+      $('.datetimepicker').datetimepicker({
+        dayOfWeekStart: 1,
+        format: 'j/n/Y',
+        formatDate: 'j/n/Y',
+        timepicker: false
+      });
+    });
+  </script>
+}

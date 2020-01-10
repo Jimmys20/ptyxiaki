@@ -9,82 +9,112 @@
 
   <title>@ViewData["Title"] - ptyxiaki</title>
 
-  <!-- Bootstrap core CSS -->
-  <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="~/lib/jquery-datetimepicker/build/jquery.datetimepicker.min.css" rel="stylesheet" />
+  <link href="~/lib/select2/dist/css/select2.min.css" rel="stylesheet" />
 
-  <link href="~/lib/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+  <link href="~/lib/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+  <link href="~/lib/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" />
 
-  <!-- Custom styles for this template -->
-  <link href="~/css/starter-template.css" rel="stylesheet">
+  <link href="~/css/app.css" rel="stylesheet">
 </head>
 
 <body>
 
-  <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand" href="#">Navbar</a>
+  <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
+    <a asp-page="/Index" class="navbar-brand">
+      <img src="https://www.iee.ihu.gr/wp-content/uploads/2019/06/cropped-ihu-logo_el-16.png" width="30" height="30" class="d-inline-block align-top" alt="" />
+      ptyxiaki
+    </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-        </li>
+
         <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
+          <a asp-page="/Theses/Index" class="nav-link">Πτυχιακές</a>
         </li>
-        <li class="nav-item"><a class="nav-link" asp-page="/Index">Αρχική</a></li>
-        <li class="nav-item"><a class="nav-link" asp-page="/Ιnstructions">Οδηγίες</a></li>
-        <li class="nav-item"><a class="nav-link" asp-page="/Theses/Index">Πτυχιακές Εργασίες</a></li>
-        <li class="nav-item"><a class="nav-link" asp-page="/">Η δήλωση μου</a></li>
 
-        <li class="nav-item"><a class="nav-link" asp-page="/">Τα στοιχεία μου</a></li>
+        @if (User.IsInRole(Globals.PROFESSOR_ROLE))
+        {
+          <li class="nav-item">
+            <a asp-page="/Students/Index" class="nav-link">Φοιτητές</a>
+          </li>
+        }
 
-        <li class="nav-item"><a class="nav-link" asp-page="/Contact">Επικοινωνία με καθηγητή</a></li>
+        <li class="nav-item">
+          <a asp-page="/Professors/Index" class="nav-link">Καθηγητές</a>
+        </li>
+
+        @if (User.IsInRole(Globals.ADMINISTRATOR_ROLE))
+        {
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Διαχείριση</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown01">
+              <a asp-page="/Administration/Data/Import" class="dropdown-item">Εισαγωγή δεδομένων</a>
+              <a asp-page="/Administration/Data/Export" class="dropdown-item">Εξαγωγή δεδομένων</a>
+              <a asp-page="/Administration/ProgramsOfStudies/Index" class="dropdown-item">Προγράμματα σπουδών</a>
+              <a asp-page="/Administration/Semesters/Index" class="dropdown-item">Εξάμηνα</a>
+              <a asp-page="/Administration/Dates" class="dropdown-item">Ημερομηνίες</a>
+              <a asp-page="/Administration/Categories/Index" class="dropdown-item">Κατηγορίες</a>
+            </div>
+          </li>
+        }
+      </ul>
+      <ul class="navbar-nav">
         @if (!User.Identity.IsAuthenticated)
         {
-          <li class="nav-item"><a class="nav-link" asp-action="Login" asp-controller="Account">Login</a></li>
+          <li class="nav-item active">
+            <a asp-action="Login" asp-controller="Account" asp-route-returnUrl="" class="nav-link">Σύνδεση</a>
+          </li>
         }
         else
         {
-          <li class="nav-item"><a class="nav-link" asp-action="Logout" asp-controller="Account">Logout</a></li>
+          <li class="nav-item dropdown active">
+            <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@User.FindFirstValue(ClaimTypes.Name)</a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown01">
+
+              @if (User.IsInRole(Globals.STUDENT_ROLE))
+              {
+                <a asp-page="/Students/Details" class="dropdown-item">Τα στοιχεία μου</a>
+                <a asp-page="/Students/Declarations" class="dropdown-item">Η δήλωση μου</a>
+              }
+              @if (User.IsInRole(Globals.PROFESSOR_ROLE))
+              {
+                <a asp-page="/Professors/Details" class="dropdown-item">Τα στοιχεία μου</a>
+              }
+
+              <a asp-action="Logout" asp-controller="Account" class="dropdown-item">Αποσύνδεση</a>
+            </div>
+          </li>
         }
-        <li class="nav-item"><a class="nav-link">@User.Identity.IsAuthenticated</a></li>
-        <li class="nav-item"><a class="nav-link">@User.FindFirst(c => c.Type == "am")?.Value</a></li>
-        @*<li class="nav-item">
-      <a class="nav-link disabled" href="#">Disabled</a>
-    </li>*@
-        @*<li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" href="https://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-      <div class="dropdown-menu" aria-labelledby="dropdown01">
-        <a class="dropdown-item" href="#">Action</a>
-        <a class="dropdown-item" href="#">Another action</a>
-        <a class="dropdown-item" href="#">Something else here</a>
-      </div>
-    </li>*@
       </ul>
     </div>
   </nav>
 
-  <main role="main" class="container">
-    @RenderBody()
-    <div class="starter-template">
-      <h1>Bootstrap starter template</h1>
-      <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
-    </div>
+  <main role="main" class="container-fluid">
 
-  </main><!-- /.container -->
-  <!-- Bootstrap core JavaScript
-  ================================================== -->
-  <!-- Placed at the end of the document so the pages load faster -->
-  <script src="~/lib/jquery/dist/jquery.slim.min.js"></script>
-  @*<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>*@
-  <script src="~/lib/popper.js/dist/umd/popper.min.js"></script>
-  <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    @RenderBody()
+
+  </main>
+
+  <script src="~/lib/jquery/dist/jquery.min.js"></script>
+  <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+  <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+  <script src="~/lib/jquery-datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
+  <script src="~/lib/select2/dist/js/select2.min.js"></script>
 
   <script src="~/lib/datatables.net/js/jquery.dataTables.min.js"></script>
   <script src="~/lib/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+  <script src="~/lib/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+  <script src="~/lib/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+
+  <script src="https://cdn.datatables.net/plug-ins/1.10.20/filtering/type-based/accent-neutralise.js"></script>
+
+  <script src="~/js/app.js"></script>
 
   @RenderSection("Scripts", required: false)
 </body>

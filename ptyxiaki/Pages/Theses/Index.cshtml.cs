@@ -10,21 +10,20 @@ using ptyxiaki.Models;
 
 namespace ptyxiaki.Pages.Theses
 {
-    public class IndexModel : PageModel
+  public class IndexModel : PageModel
+  {
+    private readonly DepartmentContext context;
+
+    public IndexModel(DepartmentContext context)
     {
-        private readonly ptyxiaki.Data.DepartmentContext _context;
-
-        public IndexModel(ptyxiaki.Data.DepartmentContext context)
-        {
-            _context = context;
-        }
-
-        public IList<Thesis> Thesis { get;set; }
-
-        public async Task OnGetAsync()
-        {
-            Thesis = await _context.theses
-                .Include(t => t.professor).ToListAsync();
-        }
+      this.context = context;
     }
+
+    public List<Thesis> theses { get; set; }
+
+    public async Task OnGetAsync()
+    {
+      await Task.CompletedTask;
+    }
+  }
 }
