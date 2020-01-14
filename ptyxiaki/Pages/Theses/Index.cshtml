@@ -3,7 +3,7 @@
 @inject IAuthorizationService authorizationService
 
 @{
-  ViewData["Title"] = "Πτυχιακές";
+  ViewData["Title"] = "Διπλωματικές εργασίες";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -24,7 +24,7 @@
   </div>
   @if (User.IsInRole(Globals.PROFESSOR_ROLE))
   {
-    <a id="myTheses" class="btn btn-outline-info">Οι πτυχιακές μου</a>
+    <a id="myTheses" class="btn btn-outline-info">Οι Δ/Ε μου</a>
   }
 </p>
 <p>

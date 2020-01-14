@@ -9,7 +9,7 @@
 <h1>@ViewData["Title"]</h1>
 
 <div>
-  <h4>Πτυχιακή</h4>
+  <h4>Διπλωματική εργασία</h4>
   <hr />
   <dl class="row">
     <dt class="col-sm-2">
@@ -169,7 +169,7 @@
   </dl>
 </div>
 <div>
-  <a asp-page="./Index">Πτυχιακές</a><br />
+  <a asp-page="./Index">Διπλωματικές εργασίες</a><br />
   @if ((await authorizationService.AuthorizeAsync(User, Model.thesis, Operations.Edit)).Succeeded)
   {
     <a asp-page="./Edit" asp-route-id="@Model.thesis.thesisId">Επεξεργασία</a><br />

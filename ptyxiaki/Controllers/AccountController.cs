@@ -73,8 +73,7 @@ namespace ptyxiaki.Controllers
         if (professor.isAdmin)
           claims.Add(new Claim(ClaimTypes.Role, Globals.ADMINISTRATOR_ROLE));
       }
-
-      if (claimsPrincipal.IsInRole(Globals.STUDENT_ROLE))
+      else if (claimsPrincipal.IsInRole(Globals.STUDENT_ROLE))
       {
         var student = await context.students.FirstOrDefaultAsync(s => s.registrationNumber == claimsPrincipal.FindFirstValue(Claims.REGISTRATION_NUMBER));
 

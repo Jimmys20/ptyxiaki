@@ -27,7 +27,7 @@ namespace ptyxiaki.Models
     [Display(Name = "Συντελεστής προόδου")]
     public int progressFactor { get; set; }
 
-    [Display(Name = "Πτυχιακές εργασίες")]
+    [Display(Name = "Διπλωματικές εργασίες")]
     public List<Assignment> assignments { get; set; }
     public List<Declaration> declarations { get; set; }
 

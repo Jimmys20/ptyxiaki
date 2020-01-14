@@ -40,7 +40,7 @@ namespace ptyxiaki.Models
     [Display(Name = "Προαπαιτούμενα μαθήματα")]
     public List<Requirement> requirements { get; set; }
     [Required]
-    [Display(Name = "Κατηγορία πτυχιακής")]
+    [Display(Name = "Κατηγορία Δ/Ε")]
     public List<Categorization> categorizations { get; set; }
 
     //------------------------------------------
